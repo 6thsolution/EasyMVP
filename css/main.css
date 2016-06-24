@@ -1,0 +1,65 @@
+.bg {
+    background: #311b92; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(45deg, #311b92, #7D0B3B); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(45deg, #311b92, #7D0B3B); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(45deg, #311b92, #7D0B3B); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(45deg, #311b92, #7D0B3B); /* Standard syntax */
+    min-height: 100%;
+
+}
+
+#index {
+
+}
+
+#index .container {
+    position: relative;
+}
+
+#index .header {
+    color: #FFF;
+}
+
+#index h1 {
+    margin-top: 16px;
+}
+
+#index h4 {
+    margin-bottom: 40px;
+}
+
+.top-divider {
+    padding-top: 16px;
+    padding-bottom: 16px;
+    border-top: 1px solid rgba(255, 255, 255, .1);
+}
+
+.features {
+    width: 100%;
+    overflow: hidden;
+}
+
+.features i {
+    margin: 30px 0;
+    color: cyan;
+    font-size: 7rem;
+    display: block;
+}
+
+.features-caption {
+    font-weight: 500;
+    margin-top: 5px;
+    margin-bottom: 0;
+    font-size: 1.7rem;
+    color: #fafafa;
+}
+
+.features-description {
+    font-weight: 300;
+    color: #e3e3e3;
+}
+
+.footer-opac{
+    color: #fff;
+    opacity: 0.4;
+}
