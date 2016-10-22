@@ -6,8 +6,8 @@ A full-featured framework that allows building android applications following th
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
-    - [Create presenter class](#create-presenter-class)
-    - [Bind presenter to Activity/Fragment/View](#bind-presenter-to-activity-fragment-view)
+    - [Create the Presenter class](#create-the-presenter-class)
+    - [Bind presenter to Activity/Fragment/View](#bind-presenter-to-activityfragmentview)
 - [License](#license)
 
 ## Features
@@ -49,6 +49,7 @@ dependencies {
 ```
 
 ## Usage
+
 First thing you will need to do is to create your view interface.
 ```java
 public interface MyView {
@@ -64,7 +65,9 @@ Then you should implement `MyView` in your `Activity`, `Fragment` or `CustomView
 - Decouple the code from the implementation view.
 - Easy stubbing. For example, you can replace your `Activity` with a `Fragment` without any changes in your presenter.
 - High level details (such as the presenter), can't depend on low level concrete details like the implementation view.
-### Create presenter class
+
+### Create the Presenter class
+
 **Presenter** acts as the middle man. It retrieves data from the data-layer and shows it in the View.
 You can create a presenter class by extending of the `AbstractPresenter` or `RxPresenter` (available in reactive API). 
 ```java
@@ -72,16 +75,53 @@ public class MyPresenter extends AbstractPresenter<MyView> {
 
 }
 ```
-To understand when the lifecycle methods of presenter are called take a look at the following table:
+To understand when the lifecycle methods of the presenter are called take a look at the following table:
 
 | Presenter          | Activity       | Fragment           | View                    |
 | ------------------ |----------------| -------------------| ------------------------|
-| ``onViewAttached`` | ``onStart``    | ``onResume``       | ``onAttachedToWindow``
-| ``onViewDetached`` | ``onStop``     | ``onPause``        | ``onDetachedFromWindow``
+| ``onViewAttached`` | ``onStart``    | ``onResume``       | ``onAttachedToWindow``  |
+| ``onViewDetached`` | ``onStop``     | ``onPause``        | ``onDetachedFromWindow``|
 
 `Presenter#onDestroyed` will be invoked inside [`Loader#onReset`](https://developer.android.com/reference/android/content/Loader.html#onReset()).
 
 ### Bind presenter to Activity/Fragment/View
+
+Well, here is the magic part. There is no need for an extra inheritance in your `Activity`, `Fragment` or `View` classes to bind the presenter lifecycle.
+
+Presenter's creation, lifecycle-binding, caching and destruction gets handled automatically by these annotations.
+
+- `@ActivityView` for all activities based on [`AppCompatActivity`](https://developer.android.com/reference/android/support/v7/app/AppCompatActivity.html).
+- `@FragmentView` for all fragments based on [`Default Fragment`](https://developer.android.com/reference/android/app/Fragment.html) or [`Support Fragment`](https://developer.android.com/reference/android/support/v4/app/Fragment.html)
+- `@CustomView` for all views based on [`View`](https://developer.android.com/reference/android/view/View.html).
+
+For injecting presenter into your activity/fragment/view, you can use `@Presenter` annotation. Also during configuration changes, previous instance of the presenter will be injected.
+
+Activity example:
+```java
+@ActivityView(layout = R.layout.my_activity, presenter = MyPresenter.class)
+public class MyActivity extends AppCompatActivity implements MyView {
+
+    @Presenter
+    MyPresenter presenter;
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Now presenter is injected.
+    }
+    
+    @Override
+    public void showResult(String resultText) {
+    //do stuff
+    }
+    
+    @Override
+    public void showError(String errorText) {
+    //do stuff
+    }
+}
+```
+
 
 ## License
 
