@@ -5,6 +5,9 @@ A full-featured framework that allows building android applications following th
 
 - [Features](#features)
 - [Installation](#installation)
+- [Usage](#usage)
+    - [Create presenter class](#create-presenter-class)
+    - [Bind presenter to Activity/Fragment/View](#bind-presenter-to-activity-fragment-view)
 - [License](#license)
 
 ## Features
@@ -35,7 +38,7 @@ android {
   ...
 }
 ```
-For reactive api, simply apply the 'easymvp-rx' plugin in your module-level `build.gradle`  and then add the RxJava dependency:
+For reactive API, simply apply the 'easymvp-rx' plugin in your module-level `build.gradle`  and then add the RxJava dependency:
 ```groovy
 apply plugin: 'easymvp-rx'
 
@@ -44,6 +47,41 @@ dependencies {
 }
 
 ```
+
+## Usage
+First thing you will need to do is to create your view interface.
+```java
+public interface MyView {
+    void showResult(String resultText);
+
+    void showError(String errorText);
+}
+```
+Then you should implement `MyView` in your `Activity`, `Fragment` or `CustomView`.
+*But why?*
+
+- Improve unit testability. You can test your presenter without any android SDK dependencies.
+- Decouple the code from the implementation view.
+- Easy stubbing. For example, you can replace your `Activity` with a `Fragment` without any changes in your presenter.
+- High level details (such as the presenter), can't depend on low level concrete details like the implementation view.
+### Create presenter class
+**Presenter** acts as the middle man. It retrieves data from the data-layer and shows it in the View.
+You can create a presenter class by extending of the `AbstractPresenter` or `RxPresenter` (available in reactive API). 
+```java
+public class MyPresenter extends AbstractPresenter<MyView> {
+
+}
+```
+To understand when the lifecycle methods of presenter are called take a look at the following table:
+
+| Presenter          | Activity       | Fragment           | View                    |
+| ------------------ |----------------| -------------------| ------------------------|
+| ``onViewAttached`` | ``onStart``    | ``onResume``       | ``onAttachedToWindow``
+| ``onViewDetached`` | ``onStop``     | ``onPause``        | ``onDetachedFromWindow``
+
+`Presenter#onDestroyed` will be invoked inside [`Loader#onReset`](https://developer.android.com/reference/android/content/Loader.html#onReset()).
+
+### Bind presenter to Activity/Fragment/View
 
 ## License
 
