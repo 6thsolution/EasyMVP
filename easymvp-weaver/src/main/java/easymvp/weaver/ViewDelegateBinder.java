@@ -129,11 +129,11 @@ public class ViewDelegateBinder extends WeaverProcessor {
 
     private void injectDelegateLifeCycleIntoFragment(CtClass ctClass, ClassInjector classInjector)
             throws Exception {
-        CtMethod onViewCreated = findBestMethod(ctClass, "onViewCreated", BUNDLE_CLASS);
+        CtMethod onActivityCreated = findBestMethod(ctClass, "onActivityCreated", BUNDLE_CLASS);
         CtMethod onResume = findBestMethod(ctClass, "onResume");
         CtMethod onPause = findBestMethod(ctClass, "onPause");
         boolean applied = dagger2Extension.apply(ctClass);
-        AfterSuper(classInjector, onViewCreated,
+        AfterSuper(classInjector, onActivityCreated,
                    applied ? STATEMENT_CALL_INITIALIZE_WITH_FACTORY : STATEMENT_CALL_INITIALIZE);
         AfterSuper(classInjector, onResume, STATEMENT_CALL_ATTACH);
         beforeSuper(classInjector, onPause, STATEMENT_CALL_DETACH);

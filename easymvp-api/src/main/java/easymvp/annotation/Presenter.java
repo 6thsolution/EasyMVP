@@ -35,7 +35,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * otherwise it won't work.
  * <p>
  * You have access to the presenter instance after super call in {@link android.app.Activity#onCreate(Bundle)},
- * {@link android.app.Fragment#onViewCreated(View, Bundle)} and {@link View#onAttachedToWindow} methods.
+ * {@link android.app.Fragment#onActivityCreated(Bundle)} and {@link View#onAttachedToWindow} methods.
  * Also during configuration changes, same instance of presenter will be injected.
  * <p>
  * Here is an example:

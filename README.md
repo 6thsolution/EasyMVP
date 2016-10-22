@@ -6,8 +6,8 @@ A full-featured framework that allows building android applications following th
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
-    - [Create the Presenter class](#create-the-presenter-class)
-    - [Bind presenter to Activity/Fragment/View](#bind-presenter-to-activityfragmentview)
+    - [Presenter](#presenter)
+    - [View Annotations](#view-annotations)
 - [License](#license)
 
 ## Features
@@ -66,9 +66,10 @@ Then you should implement `MyView` in your `Activity`, `Fragment` or `CustomView
 - Easy stubbing. For example, you can replace your `Activity` with a `Fragment` without any changes in your presenter.
 - High level details (such as the presenter), can't depend on low level concrete details like the implementation view.
 
-### Create the Presenter class
+### Presenter
 
 **Presenter** acts as the middle man. It retrieves data from the data-layer and shows it in the View.
+
 You can create a presenter class by extending of the `AbstractPresenter` or `RxPresenter` (available in reactive API). 
 ```java
 public class MyPresenter extends AbstractPresenter<MyView> {
@@ -84,9 +85,9 @@ To understand when the lifecycle methods of the presenter are called take a look
 
 `Presenter#onDestroyed` will be invoked inside [`Loader#onReset`](https://developer.android.com/reference/android/content/Loader.html#onReset()).
 
-### Bind presenter to Activity/Fragment/View
+### View Annotations
 
-Well, here is the magic part. There is no need for an extra inheritance in your `Activity`, `Fragment` or `View` classes to bind the presenter lifecycle.
+Well, here is the magic part. There is no need for any extra inheritance in your `Activity`, `Fragment` or `View` classes to bind the presenter lifecycle.
 
 Presenter's creation, lifecycle-binding, caching and destruction gets handled automatically by these annotations.
 
@@ -96,7 +97,9 @@ Presenter's creation, lifecycle-binding, caching and destruction gets handled au
 
 For injecting presenter into your activity/fragment/view, you can use `@Presenter` annotation. Also during configuration changes, previous instance of the presenter will be injected.
 
-Activity example:
+Presenter instance will be set to null after [`LoaderCallbacks#onLoadFinished`](https://developer.android.com/reference/android/app/LoaderManager.LoaderCallbacks.html#onLoadFinished)
+
+`@ActivityView` example:
 ```java
 @ActivityView(layout = R.layout.my_activity, presenter = MyPresenter.class)
 public class MyActivity extends AppCompatActivity implements MyView {
@@ -112,15 +115,72 @@ public class MyActivity extends AppCompatActivity implements MyView {
     
     @Override
     public void showResult(String resultText) {
-    //do stuff
+        //do stuff
     }
     
     @Override
     public void showError(String errorText) {
-    //do stuff
+        //do stuff
     }
 }
 ```
+
+- You can specify the layout in `@ActivityView#layout` and EasyMVP will automatically inflate it for you.
+- You have access to the presenter instance after `super.onCreate(savedInstanceState);` in `onCreate` method.
+
+`@FragmentView` example:
+```java
+@FragmentView(presenter = MyPresenter.class)
+public class MyFragment extends Fragment implements MyView {
+
+    @Presenter
+    MyPresenter presenter;
+    
+    @Override
+    public void onActivityCreated(Bundle bundle) {
+        super.onActivityCreated(bundle);
+        // Now presenter is injected.
+    }
+    
+    @Override
+    public void showResult(String resultText) {
+        //do stuff
+    }
+    
+    @Override
+    public void showError(String errorText) {
+        //do stuff
+    }
+}
+```
+- You have access to the presenter instance after `super.onActivityCreated(bundle);` in `onActivityCreated` method.
+
+`@CustomView` example:
+```java
+@CustomView(presenter = MyPresenter.class)
+public class MyCustomView extends View implements MyView {
+
+    @Presenter
+    MyPresenter presenter;
+    
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        // Now presenter is injected.
+    }
+    
+    @Override
+    public void showResult(String resultText) {
+        //do stuff
+    }
+    
+    @Override
+    public void showError(String errorText) {
+        //do stuff
+    }
+}
+```
+- You have access to the presenter instance after `super.onAttachedToWindow();` in `onAttachedToWindow` method.
 
 
 ## License
