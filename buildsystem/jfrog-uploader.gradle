@@ -1,0 +1,189 @@
+import java.text.SimpleDateFormat
+
+apply plugin: 'com.jfrog.bintray'
+apply plugin: "com.jfrog.artifactory"
+apply plugin: 'maven-publish'
+apply plugin: 'net.nemerosa.versioning'
+
+Date buildTimeAndDate = new Date()
+def buildDate = new SimpleDateFormat('yyyy-MM-dd').format(buildTimeAndDate)
+def buildTime = new SimpleDateFormat('HH:mm:ss.SSSZ').format(buildTimeAndDate)
+
+def travisSlug = System.getenv("TRAVIS_REPO_SLUG")
+def bintrayUser = ''
+def bintrayKey = ''
+
+if (travisSlug) {
+    bintrayUser = System.getenv('BINTRAY_USERNAME')
+    bintrayKey = System.getenv('BINTRAY_APIKEY')
+} else if (project.rootProject.file('local.properties').exists()) {
+    Properties prop = new Properties()
+    prop.load(project.rootProject.file('local.properties').newDataInputStream())
+    bintrayUser = prop.getProperty("user")
+    bintrayKey = prop.getProperty("apiKey")
+}
+
+def pomConfig = {
+    name project.name
+    description DESC
+    url 'https://github.com/6thsolution/EasyMVP'
+    inceptionYear '2016'
+    licenses {
+        license([:]) {
+            name 'The Apache Software License, Version 2.0'
+            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+            distribution 'repo'
+        }
+    }
+    scm {
+        url 'https://github.com/6thsolution/EasyMVP'
+    }
+    developers {
+        [
+                SaeedMasoumi: 'Saeed Masoumi'
+        ].each { devId, devName ->
+            developer {
+                id devId
+                name devName
+                roles {
+                    role 'Developer'
+                }
+            }
+        }
+    }
+    contributors {
+        [
+        ].each { cName ->
+            contributor {
+                name cName
+                roles {
+                    role 'contributor'
+                }
+            }
+        }
+    }
+}
+
+jar {
+    manifest {
+        attributes(
+                'Built-By': System.properties['user.name'],
+                'Created-By': "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})".toString(),
+                'Build-Date': buildDate,
+                'Build-Time': buildTime,
+                'Build-Revision': versioning.info.commit,
+                'Specification-Title': project.name,
+                'Specification-Version': project.version,
+                'Specification-Vendor': 'EasyMVP',
+                'Implementation-Title': project.name,
+                'Implementation-Version': project.version,
+                'Implementation-Vendor': 'EasyMVP'
+        )
+    }
+
+    metaInf {
+        from rootProject.file('.')
+        include 'LICENSE'
+    }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+artifactoryPublish {
+    dependsOn sourcesJar, javadocJar
+}
+
+publishing {
+    publications {
+        mavenCustom(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+
+            pom.withXml {
+                // all dependencies should use the default scope (compile) but
+                // Gradle insists in using runtime as default
+                asNode().dependencies.dependency.each { dep ->
+                    if (dep.scope.text() == 'runtime') {
+                        dep.remove(dep.scope)
+                    }
+                }
+                asNode().children().last() + pomConfig
+            }
+        }
+    }
+}
+
+////////release
+bintray {
+    user = bintrayUser
+    key = bintrayKey
+    publications = ['mavenCustom']
+    publish = true
+    pkg {
+        repo = 'easymvp'
+        name = project.name
+        desc = DESC
+        userOrg = "6thsolution"
+        licenses = ['Apache-2.0']
+        websiteUrl = 'https://github.com/6thsolution/EasyMVP'
+        vcsUrl = 'https://github.com/6thsolution/EasyMVP.git'
+        licenses = ['Apache-2.0']
+        issueTrackerUrl = 'https://github.com/6thsolution/EasyMVP/issues'
+        labels = ['android']
+        publicDownloadNumbers = true
+        githubRepo = '6thsolution/EasyMVP'
+        githubReleaseNotesFile = 'README.md'
+        version {
+            name = VERSION_NAME
+            desc = DESC
+            released = new Date()
+        }
+    }
+}
+
+////////snapshots
+
+artifactory {
+    contextUrl = 'https://oss.jfrog.org'
+
+    publish {
+        repository {
+            repoKey = 'oss-snapshot-local'
+            username = bintrayUser
+            password = bintrayKey
+        }
+        defaults {
+            publications('mavenCustom')
+            publishArtifacts = true
+
+        }
+    }
+    resolve {
+        repoKey = 'jcenter'
+    }
+}
+
+def publishTask
+if (VERSION_NAME.endsWith("SNAPSHOT")) {
+    publishTask = tasks.artifactoryPublish
+} else {
+    publishTask = tasks.bintrayUpload
+}
+
+task publishFromCI(dependsOn: publishTask) {
+
+}

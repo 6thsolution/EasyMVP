@@ -1,0 +1,13 @@
+apply plugin: 'java'
+apply from: rootProject.file('buildsystem/jfrog-uploader.gradle')
+
+sourceCompatibility = ver.sourceCompatibilityVersion
+targetCompatibility = ver.targetCompatibilityVersion
+
+dependencies {
+    compile deps.autoService
+    compile project(':easymvp-api')
+    compile deps.javaPoet
+    compile group: 'com.google.auto', name: 'auto-common', version: '0.7'
+
+}

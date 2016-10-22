@@ -1,0 +1,10 @@
+apply plugin: 'java'
+apply from: rootProject.file('buildsystem/jfrog-uploader.gradle')
+
+sourceCompatibility = ver.sourceCompatibilityVersion
+targetCompatibility = ver.targetCompatibilityVersion
+
+dependencies {
+    compile project(':easymvp-api')
+    compileOnly deps.rxJava
+}

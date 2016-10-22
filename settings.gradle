@@ -1,0 +1,10 @@
+include ':easymvp-weaver', ':easymvp-api', ':easymvp-compiler', ':easymvp-plugin', ':easymvp-api', ':easymvp-test'
+//
+//rootProject.children.each { project ->
+//    if (project.name.startsWith("samples/")) {
+//        int slash = project.name.indexOf("/")
+//        project.name = project.name.substring(slash + 1)
+//    }
+//}
+include 'easymvp-rx-api'
+

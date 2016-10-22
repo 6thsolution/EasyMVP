@@ -1,0 +1,55 @@
+buildscript {
+
+    apply from: rootProject.file('buildsystem/dependencies.gradle')
+
+    repositories {
+        jcenter()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath deps.androidPlugin
+        classpath deps.gradleBintrayPlugin
+        classpath deps.buildInfoExtractorGradle
+        classpath deps.versioning
+        classpath deps.weaverPlugin
+        classpath deps.androidApt
+        classpath deps.hugo
+    }
+}
+
+group GROUP
+version VERSION_NAME
+
+subprojects { subproj ->
+    group GROUP
+    version VERSION_NAME
+
+    buildscript {
+        apply from: rootProject.file('buildsystem/dependencies.gradle')
+    }
+
+    apply from: rootProject.file('buildsystem/dependencies.gradle')
+
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven { url "https://oss.jfrog.org/oss-snapshot-local/" }
+    }
+
+    subproj.tasks.withType(JavaCompile) {
+        sourceCompatibility = 1.7
+        targetCompatibility = 1.7
+    }
+
+    subproj.tasks.withType(GroovyCompile) {
+        sourceCompatibility = 1.7
+        targetCompatibility = 1.7
+    }
+
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

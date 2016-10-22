@@ -1,0 +1,34 @@
+apply plugin: 'groovy'
+
+apply from: rootProject.file('buildsystem/jfrog-uploader.gradle')
+
+
+sourceSets {
+    main {
+        java { srcDirs = [] }    // no source dirs for the java compiler
+        groovy { srcDirs = ["src/main/java", "src/main/groovy", "build/generated-src/main/java"] }
+    }
+    test {
+        java { srcDirs = [] }    // no source dirs for the java compiler
+        groovy { srcDirs = ["src/test/java", "src/test/groovy"] }
+    }
+}
+
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+    compile deps.androidApt
+    compile deps.weaverPlugin
+}
+
+import org.apache.tools.ant.filters.ReplaceTokens
+
+task generateVersionClass(type: Copy) {
+    from 'src/main/templates/Version.java'
+    into 'build/generated-src/main/java/easymvp/gradle/plugin'
+    filter(ReplaceTokens, tokens: [version: version])
+    outputs.upToDateWhen { false }
+}
+
+compileJava.dependsOn generateVersionClass

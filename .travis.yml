@@ -1,0 +1,40 @@
+language: android
+install: true
+
+android:
+  components:
+    - tools
+    - platform-tools
+    - build-tools-24.0.3
+    - android-24
+    - extra-android-m2repository
+    - sys-img-armeabi-v7a-android-18
+jdk:
+  - oraclejdk8
+env:
+  global:
+    - secure: "fUBrEOgcvWI9RDn+d+7bZiOyk2X/hkpIQ1SeVLT0vse2uYvWGQ0dhWmUA2OXISjdcO98ab+R8AwjeFOhOxWHXYf9hvbwXzCIH9R92u/fRijJdkhxyVbLeLG+RB3M5eKY48t/QJ3hOHp7r2iJrOWpfYBjltRFkOvdOtwjbISF500GrB7/G2ZeOkS4z29ntrBiVvmnKfBw6EnytgiDee6CCwTjNKmR+nx4gYSYChvfPVqAmeu/7ZDeSLx8geFUszEaObbVGsXiz8uKOPPyGWDyTdha7t54zWGyvmP12PEbwHgA9duo0ZnmClckU3l1lyGmq0+pWdAYu7hZXULR00hFXmvtv9O0GndWsvB4kkZ+qh22nemPte0/W5wY4VN0jD1sV2dU+/4YapjsCIaV3Ft/IBLLw/39+hf0LM8LnAgI4qLU2bq/hr+kQf0HAPTyrwrYeLChvOMHFKCODZJsgj/CUYNWdohQl5XNSxBdTZD0aKxWuSMZfrADMbNHrIxOb/+/qugg90C+2Ol/VpI2LoLxhfjctCSHPd9+nZEK2PHOsx3/PAureEnbMw5ynits6UVxHEkxKwiQDUCQGfOECLhtWb9WpuaGlvIyzASTTGGxjzOz52gxUY4wvtODr7FSTYmDtEIATZej03CWvNPG1GU24emUKsNCC8wnuxL81DHHvak="
+    - secure: "MTW91HynyjrHS/R8wkNHYO39PR2FB+H/PrrYrncNsdLXE3nrQCQ4cXmhQDbAbLb+Q9XS/hTvVnEKrEsuAbNEGCPe+JrU+vwpDiB4Qt6fWQXnTsehwkHl2VmfC7imghHfjWx4lDaYnsyrupb4REzZ5O0KHACpknHJyvtp+jt2Z+VXSmKxy+/3aFcACcQSnWsxz20R3TiGHXVRoKwc80fxQcSG0pOn+CDVH7qR7vjpMwjk5DfdV+xn/BcK8OTt6kCuHV5yp35ZoLwmmj2fHPaVtaEF/0cZ8/4RVCYMdujpSh0OSXygwYWkwrl5IJ3Stu+b7G5V6XGWDZHMdd7JXRE0mSE3Bmm1vxXqMcRQV3iIhzteDx5qUEq4ZsB1TNnm9QnQwlYlx/5qBXRKJJvOSsgHfItTJFF8x0ByfOYYoxnt0X7GRZwz9emJFNjRegm5+hitCJquv37q4P28gMZIdhkdueEiNuzjjlrNOQxBc7+FMIW4cBw3dfYoe3VzspzVI5IXzluQm6UWpSZAVKNTIN0MEo/hng6kcFSeI44coPcKIu3Da1kobwZ0eL+s1NP+eyd2mTN8GrhmwjUTnb71w/wMR1sITpM5TUU+tuUkPAbvcLmPJUsXRBVBcqpiDouJwETLgK/yhrA6qgFXNNrTiP3BNWN2UK7PK79dofXbVsbJFeI="
+    - secure: "mV0hjSfm0I83qBn67peZinJFn1d9ZCsKwUDMqT17M/ta24qwXdowxtuIbr0L9oSF6s2Dfmc39sw+2mNnfUSsThCivyH0MZSQV2nZb5qDW5oA3inZjGbYiPP2IJGQMrtvLuFpo0iM5FR/0IG+sqinD4qe4CVjbR4CfLgiPmlJAedCgd4Zneb97Gw8hgMhohA9mkYY8ujiJNtM00d1DNN8zJUAtnSeK7CPKyouTaDT2XQAAoRQkjaVRA+da5e63d9IlVWg5hOEg8wlcLE0docBIeEjuxp7mPV9NdYGandesoIkKtVHdSGEeRUsO369tXSwejNoaXGsOAHLYTYzGv3uOyc3QtDxq9CCSaW1IQoiwfPghI60527sx70fyJvjpWmR2FGHK87oJuUaaR4PbsbJQx43MdFlZSBktb1hwm3PGUl5o5iy86teiEI5LpDTztIp5v60ehlCPviqwaW/P4Nrbzha3G4/l6D1nKzaf+83b67iR8rnqdtXJ1cuXahuz8KWTCFtXo5Z/nlI+WCr8sbSqcwUYsZLzMf+xtPBBtPx8KVX5fl54Alf3klxJmCei/w/oiCXGrdrS6LqJARju++7yXtlojhKD/eBFNvFzj/ijckQ/FIruwc8UmXDvpyZ3IoFNh6e4oAKGh/rZTdj5bCUwKfWpTJ/KOoK8mh5njxfyVs="
+    - secure: "DT0EsmLku8Y7r0xYgGr0tXC4ornlQgKXxc18UqTEP4PAnFmUQsY3/VsIrl3Ug9JK+Px1LmumBx1lsFmg9jTkm6QhoeOT7EUAdtGwgYM8rCt9iuyKDcdtxdQ37ByFj/dGwLOBsup1H2dvUia1JDvEBOqRXitMPj2ASUorbp9izvz035TOBeZo5Zu36A+nqChoEUwekyhMmmyS4tPVrhoNydXP9olaO1O76EVwqA18XB1RJuQ2AgGinDm7+/jEzV6j1SSbZwmDWIbEjeDGiWB8tO0RX3Fe00KQGPexb6/YU2z8KAmC+VekC95F1vkP9kNgf+VzTzsTXRvBOdvrutpnh5P4dBZk7RnYlwDmiw6/6KblmQF+XT6NXutJ4dMC7Nf/EYNR47Cl2w5ljSr8XX+V+h0nKHZ6wagrwa9C8zd1/zOONT+i+RRlDEB8ouT1YxU7lMt/TBd4Kh++e95nBZvYnYi6CK7OcQetHeb7RWHwzcLBtFQksK0QLZZ6OQWNXi0PA01q6RNSYOw72UqMKqgguE+q6Vc+ekCkdVtEs/d35/8ArnRPQtWQiheo17OLkapWdqwDBMNIqEvmzZX8Z2KLEi/b66ikU+0rVUWYhw+COa8SxbVBgsGpoNTECvJ2oISWW1eud1XgCL8lZk+PseQVSkldV87c2N+ODyyqbLZe7U4="
+cache:
+  directories:
+    - $HOME/.gradle
+
+before_install:
+    - sudo apt-get update -qq
+    - sudo apt-get install oracle-java8-installer
+
+before_script:
+    - chmod +x gradlew
+    - chmod +x .buildscript/deploy_artifacts.sh
+    - ./gradlew --version
+
+after_success:
+  - .buildscript/deploy_artifacts.sh
+
+script:
+    - ./gradlew clean assemble --info
+
+notifications:
+  email: false

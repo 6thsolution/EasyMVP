@@ -1,0 +1,11 @@
+apply plugin: 'java'
+apply from: rootProject.file('buildsystem/jfrog-uploader.gradle')
+
+sourceCompatibility = ver.sourceCompatibilityVersion
+targetCompatibility = ver.targetCompatibilityVersion
+
+dependencies {
+    compile deps.javax
+    compile deps.jsr305
+    compileOnly deps.android
+}
