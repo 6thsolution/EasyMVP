@@ -8,6 +8,7 @@ A full-featured framework that allows building android applications following th
 - [Usage](#usage)
     - [Presenter](#presenter)
     - [View Annotations](#view-annotations)
+    - [Injecting with Dagger](#injecting-with-dagger)
 - [License](#license)
 
 ## Features
@@ -182,6 +183,40 @@ public class MyCustomView extends View implements MyView {
 ```
 - You have access to the presenter instance after `super.onAttachedToWindow();` in `onAttachedToWindow` method.
 
+### Injecting with Dagger
+`@Presenter` annotation will instantiate your presenter class by calling its default constructor, So you can't pass any objects to the constructor.
+
+But if you are using [Dagger](https://google.github.io/dagger/), you can use its constructor injection feature to inject your presenter.
+
+So what you need is make your presenter injectable and add `@Inject` annotation before `@Presenter`. Here is an example:
+```java
+public class MyPresenter extends AbstractPresenter<MyView> {
+
+    @Inject
+    public MyPresenter(UseCase1 useCase1, UseCase2 useCase2){
+    
+    }
+}
+
+@ActivityView(layout = R.layout.my_activity, presenter = MyPresenter.class)
+public class MyActivity extends AppCompatActivity implements MyView {
+
+    @Inject
+    @Presenter
+    MyPresenter presenter;
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        SomeDaggerComponent.injectTo(this);
+        super.onCreate(savedInstanceState);
+     }
+        
+    //...
+}
+
+```
+
+**Don't** inject dependencies after `super.onCreate(savedInstanceState);` in activities, `super.onActivityCreated(bundle);` in fragments and `super.onAttachedToWindow();` in custom views.
 
 ## License
 
