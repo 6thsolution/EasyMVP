@@ -9,6 +9,10 @@ A full-featured framework that allows building android applications following th
     - [Presenter](#presenter)
     - [View Annotations](#view-annotations)
     - [Injecting with Dagger](#injecting-with-dagger)
+- [Clean Architecture Usage](#clean-architecture-usage)
+    - [UseCase](#usecase)
+    - [DataMapper](#datamapper)
+    - [RxUseCase Helper](#rxusecase-helper)
 - [License](#license)
 
 ## Features
@@ -218,6 +222,83 @@ public class MyActivity extends AppCompatActivity implements MyView {
 
 **Don't** inject dependencies after `super.onCreate(savedInstanceState);` in activities, `super.onActivityCreated(bundle);` in fragments and `super.onAttachedToWindow();` in custom views.
 
+## Clean Architecture Usage
+You can follow the principles of [Clean Architecture](#https://blog.8thlight.com/uncle-bob/2012/08/13/the-clean-architecture.html) by applying 'easymvp-rx' plugin. Previous part was all about the presentation-layer, Now lets talk about the domain-layer.
+
+**Domain Layer** holds all your business logic, it encapsulates and implements all of the use cases of the system.
+This layer is a pure java module without any android SDK dependencies.
+
+### UseCase
+**UseCases** are the entry points to the domain layer. These use cases represent all the possible actions a developer can perform from the presentation layer.
+
+Each use case should run off the main thread(UI thread), to avoid reinventing the wheel, EasyMVP uses RxJava to achieve this. 
+
+You can create a use case class by extending of the following classes:
+ - `ObservableUseCase` 
+ - `CompletableUseCase`
+
+```java
+public class SuggestPlaces extends ObservableUseCase<List<Place>, String> {
+
+    private final SearchRepository searchRepository;
+
+    public SuggestPlaces(SearchRepository searchRepository, 
+                         UseCaseExecutor useCaseExecutor,
+                         PostExecutionThread postExecutionThread) {
+        super(useCaseExecutor, postExecutionThread);
+        this.searchRepository = searchRepository;
+    }
+
+    @Override
+    protected Observable<List<Place>> interact(@NonNull String query) {
+        return searchRepository.suggestPlacesByName(query);
+    }
+}
+```
+
+```java
+public class InstallTheme extends CompletableUseCase<File> {
+
+    private final ThemeManager themeManager;
+    private final FileManager fileManager;
+    
+    public SetUpFirstTheme(ThemeManager themeManager,
+                           FileManager fileManager,
+                           UseCaseExecutor useCaseExecutor,
+                           PostExecutionThread postExecutionThread) {
+        super(useCaseExecutor, postExecutionThread);
+        this.themeManager = themeManager;
+        this.fileManager = fileManager;
+    }
+
+    @Override
+    protected Completable interact(@NonNull File themePath) {
+        return themeManager.install(themePath)
+                .andThen(fileManager.remove(themePath))
+                .toCompletable();
+    }
+
+}
+
+```
+And the implementations of `UseCaseExecutor` and `PostExecutionThread` are:
+```java
+public class UIThread implements PostExecutionThread {
+    
+    @Override
+    public Scheduler getScheduler() {
+        return AndroidSchedulers.mainThread();
+    }
+}
+
+public class BackgroundThread implements UseCaseExecutor {
+
+    @Override
+    public Scheduler getScheduler() {
+        return Schedulers.io();
+    }
+}
+```
 ## License
 
 EasyMVP is under the Apache 2.0 license. See [LICENSE](LICENSE) file for details.
