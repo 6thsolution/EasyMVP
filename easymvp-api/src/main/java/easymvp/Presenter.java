@@ -4,13 +4,13 @@ import javax.annotation.Nullable;
 
 /**
  * Base interface for all presenters in Model-View-Presenter pattern.
- *<p>
- * The {@code Presenter} is responsible for orchestrating all the application’s use cases,
+ * <p>
+ * The {@code Presenter} is responsible for orchestrating all the application's use cases,
  * So it acts as a middle man that retrieves model from data-layer and shows it in the view.
  * <p>
  * In MVP pattern, view is made completely passive and is no longer responsible for updating itself from the model.
  * So it routes all user actions to the presenter and the presenter decides the action to take.
- *
+ * 
  * @param <V> Generic type of view that the presenter interacts with. To make presenter
  *            testable, the view should be implemented with an interface and presenter refers to it instead of the view implementation.
  *            This will allow to write unit tests without any android SDK dependency.
