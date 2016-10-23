@@ -12,7 +12,6 @@ A full-featured framework that allows building android applications following th
 - [Clean Architecture Usage](#clean-architecture-usage)
     - [UseCase](#usecase)
     - [DataMapper](#datamapper)
-    - [RxUseCase Helper](#rxusecase-helper)
 - [License](#license)
 
 ## Features
@@ -299,6 +298,61 @@ public class BackgroundThread implements UseCaseExecutor {
     }
 }
 ```
+
+### DataMapper
+Each **DataMapper** transforms entities from the format most convenient for the use cases, to the format most convenient for the presentation layer. 
+
+*But, why is it useful?*
+
+Let's see `SuggestPlaces` use case again. Assume that you passed the `Mon` query to this use case and it emitted:
+- Montreal
+- Monterrey
+- Montpellier
+
+But you want to bold the `Mon` part of each suggestion like:
+- **Mon**treal
+- **Mon**terrey
+- **Mon**tpellier 
+
+So, you can use a data mapper to transform the `Place` object to the format most convenient for your presentation layer.
+
+```java
+public class PlaceSuggestionMapper extends DataMapper<List<SuggestedPlace>, List<Place>> {
+    
+    @Override
+    public List<SuggestedPlace> call(List<Place> places) {
+        //TODO for each Place object, use SpannableStringBuilder to make a partial bold effect
+    }
+}
+```
+Note that `Place` entity lives in the domain layer but `SuggestedPlace` entity lives in the presentation layer.
+
+So, How to bind `DataMapper` to `ObservableUseCase`?
+
+```java
+public class MyPresenter extends RxPresenter<MyView> {
+
+    private SuggestPlace suggestPlace;
+    private SuggestPlaceMapper suggestPlaceMapper;
+    
+    @Inject
+    public MyPresenter(SuggestPlace suggestPlace, SuggestPlaceMapper suggestPlaceMapper){
+        this.suggestPlace = suggestPlace;
+        this.suggestPlaceMapper = suggestPlaceMapper;
+    }
+    
+    void suggestPlaces(String query){
+        addSubscription(
+                       suggestPlace.execute(query)
+                                     .map(suggetsPlaceMapper)
+                                     .subscribe(suggestedPlaces->{
+                                           //do-stuff
+                                      })
+                        );
+    }
+}
+```
+
 ## License
 
 EasyMVP is under the Apache 2.0 license. See [LICENSE](LICENSE) file for details.
