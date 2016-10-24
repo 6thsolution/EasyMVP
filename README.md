@@ -12,7 +12,7 @@ A full-featured framework that allows building android applications following th
 - [Clean Architecture Usage](#clean-architecture-usage)
     - [UseCase](#usecase)
     - [DataMapper](#datamapper)
-- [Documentation](#documentation)    
+- [Documentation](#documentation)
 - [License](#license)
 
 ## Features

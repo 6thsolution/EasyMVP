@@ -28,13 +28,14 @@ before_install:
 before_script:
     - chmod +x gradlew
     - chmod +x .buildscript/deploy_artifacts.sh
+    - chmod +x .buildscript/ci.sh
     - ./gradlew --version
 
-after_success:
-  - .buildscript/deploy_artifacts.sh
-
 script:
-    - ./gradlew clean assemble --info
+  - .script/ci.sh
+
+after_success:
+  - .script/deploy_artifacts.sh
 
 notifications:
   email: false
