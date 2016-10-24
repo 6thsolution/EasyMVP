@@ -12,6 +12,7 @@ A full-featured framework that allows building android applications following th
 - [Clean Architecture Usage](#clean-architecture-usage)
     - [UseCase](#usecase)
     - [DataMapper](#datamapper)
+- [Documentation](#documentation)    
 - [License](#license)
 
 ## Features
@@ -74,7 +75,7 @@ Then you should implement `MyView` in your `Activity`, `Fragment` or `CustomView
 
 **Presenter** acts as the middle man. It retrieves data from the data-layer and shows it in the View.
 
-You can create a presenter class by extending of the `AbstractPresenter` or `RxPresenter` (available in reactive API). 
+You can create a presenter class by extending of the [`AbstractPresenter`](http://6thsolution.github.io/EasyMVP/api-javadoc/easymvp/AbstractPresenter.html) or [`RxPresenter`](http://6thsolution.github.io/EasyMVP/rx-api-javadoc/easymvp/RxPresenter.html) (available in reactive API). 
 ```java
 public class MyPresenter extends AbstractPresenter<MyView> {
 
@@ -95,11 +96,11 @@ Well, here is the magic part. There is no need for any extra inheritance in your
 
 Presenter's creation, lifecycle-binding, caching and destruction gets handled automatically by these annotations.
 
-- `@ActivityView` for all activities based on [`AppCompatActivity`](https://developer.android.com/reference/android/support/v7/app/AppCompatActivity.html).
-- `@FragmentView` for all fragments based on [`Default Fragment`](https://developer.android.com/reference/android/app/Fragment.html) or [`Support Fragment`](https://developer.android.com/reference/android/support/v4/app/Fragment.html)
-- `@CustomView` for all views based on [`View`](https://developer.android.com/reference/android/view/View.html).
+- [`@ActivityView`](http://6thsolution.github.io/EasyMVP/api-javadoc/easymvp/annotation/ActivityView.html) for all activities based on [`AppCompatActivity`](https://developer.android.com/reference/android/support/v7/app/AppCompatActivity.html).
+- [`@FragmentView`](http://6thsolution.github.io/EasyMVP/api-javadoc/easymvp/annotation/FragmentView.html) for all fragments based on [`Default Fragment`](https://developer.android.com/reference/android/app/Fragment.html) or [`Support Fragment`](https://developer.android.com/reference/android/support/v4/app/Fragment.html)
+- [`@CustomView`](http://6thsolution.github.io/EasyMVP/api-javadoc/easymvp/annotation/CustomView.html) for all views based on [`View`](https://developer.android.com/reference/android/view/View.html).
 
-For injecting presenter into your activity/fragment/view, you can use `@Presenter` annotation. Also during configuration changes, previous instance of the presenter will be injected.
+For injecting presenter into your activity/fragment/view, you can use [`@Presenter`](http://6thsolution.github.io/EasyMVP/api-javadoc/easymvp/annotation/Presenter.html) annotation. Also during configuration changes, previous instance of the presenter will be injected.
 
 Presenter instance will be set to null after [`LoaderCallbacks#onLoadFinished`](https://developer.android.com/reference/android/app/LoaderManager.LoaderCallbacks.html#onLoadFinished)
 
@@ -233,8 +234,8 @@ This layer is a pure java module without any android SDK dependencies.
 Each use case should run off the main thread(UI thread), to avoid reinventing the wheel, EasyMVP uses RxJava to achieve this. 
 
 You can create a use case class by extending of the following classes:
- - `ObservableUseCase` 
- - `CompletableUseCase`
+ - [`ObservableUseCase`](http://6thsolution.github.io/EasyMVP/rx-api-javadoc/easymvp/usecase/ObservableUseCase.html) 
+ - [`CompletableUseCase`](http://6thsolution.github.io/EasyMVP/rx-api-javadoc/easymvp/usecase/CompletableUseCase.html)
 
 ```java
 public class SuggestPlaces extends ObservableUseCase<List<Place>, String> {
@@ -280,7 +281,7 @@ public class InstallTheme extends CompletableUseCase<File> {
 }
 
 ```
-And the implementations of `UseCaseExecutor` and `PostExecutionThread` are:
+And the implementations of [`UseCaseExecutor`](http://6thsolution.github.io/EasyMVP/rx-api-javadoc/easymvp/executer/UseCaseExecutor.html) and [`PostExecutionThread`](http://6thsolution.github.io/EasyMVP/rx-api-javadoc/easymvp/executer/PostExecutionThread.html) are:
 ```java
 public class UIThread implements PostExecutionThread {
     
@@ -327,7 +328,7 @@ public class PlaceSuggestionMapper extends DataMapper<List<SuggestedPlace>, List
 ```
 Note that `Place` entity lives in the domain layer but `SuggestedPlace` entity lives in the presentation layer.
 
-So, How to bind `DataMapper` to `ObservableUseCase`?
+So, How to bind [`DataMapper`](http://6thsolution.github.io/EasyMVP/rx-api-javadoc/easymvp/boundary/DataMapper.html) to `ObservableUseCase`?
 
 ```java
 public class MyPresenter extends RxPresenter<MyView> {
@@ -352,6 +353,11 @@ public class MyPresenter extends RxPresenter<MyView> {
     }
 }
 ```
+
+## Documentation
+EasyMVP [API](http://6thsolution.github.io/EasyMVP/api-javadoc/): Javadocs for the current API release
+
+EasyMVP [RX-API](http://6thsolution.github.io/EasyMVP/rx-api-javadoc/): Javadocs for the current RX-API (Clean Architecture API) release
 
 ## License
 
