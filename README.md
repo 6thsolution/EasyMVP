@@ -222,7 +222,7 @@ public class MyActivity extends AppCompatActivity implements MyView {
 **Don't** inject dependencies after `super.onCreate(savedInstanceState);` in activities, `super.onActivityCreated(bundle);` in fragments and `super.onAttachedToWindow();` in custom views.
 
 ## Clean Architecture Usage
-You can follow the principles of [Clean Architecture](#https://blog.8thlight.com/uncle-bob/2012/08/13/the-clean-architecture.html) by applying 'easymvp-rx' plugin. Previous part was all about the presentation-layer, Now lets talk about the domain-layer.
+You can follow the principles of [Clean Architecture](https://blog.8thlight.com/uncle-bob/2012/08/13/the-clean-architecture.html) by applying 'easymvp-rx' plugin. Previous part was all about the presentation-layer, Now lets talk about the domain-layer.
 
 **Domain Layer** holds all your business logic, it encapsulates and implements all of the use cases of the system.
 This layer is a pure java module without any android SDK dependencies.
@@ -261,7 +261,7 @@ public class InstallTheme extends CompletableUseCase<File> {
     private final ThemeManager themeManager;
     private final FileManager fileManager;
     
-    public SetUpFirstTheme(ThemeManager themeManager,
+    public InstallTheme(ThemeManager themeManager,
                            FileManager fileManager,
                            UseCaseExecutor useCaseExecutor,
                            PostExecutionThread postExecutionThread) {
