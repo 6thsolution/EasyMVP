@@ -1,7 +1,10 @@
 #!/bin/bash
+
+set -e
+
 # Generate weaver processor
-sh ./gradlew clean easymvp-weaver:jar
+./gradlew clean easymvp-weaver:jar
 # Manipulate java classes
-sh ./gradlew transformClassesWithWeaverForDebug --info
+./gradlew transformClassesWithWeaverForDebug --info
 # Run test
-sh ./gradlew connectedAndroidTest -PdisablePreDex -PwithDexcount -Dscan --info
+./gradlew connectedAndroidTest -PdisablePreDex -PwithDexcount -Dscan --info
