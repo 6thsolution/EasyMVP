@@ -5,8 +5,8 @@ android:
   components:
     - tools
     - platform-tools
-    - build-tools-24.0.3
-    - android-24
+    - build-tools-25.0.0
+    - android-25
     - extra-android-m2repository
     - sys-img-armeabi-v7a-android-18
 jdk:
@@ -26,9 +26,16 @@ before_install:
     - sudo apt-get install oracle-java8-installer
 
 before_script:
+   # Create and start an emulator for instrumentation tests.
+    - echo no | android create avd --force -n test -t android-18 --abi armeabi-v7a
+    - emulator -avd test -no-audio -no-window &
+    - android-wait-for-emulator
+    - adb shell input keyevent 82
+    # Make scripts executable
     - chmod +x gradlew
     - chmod +x .buildscript/deploy_artifacts.sh
     - chmod +x .buildscript/ci.sh
+    # Show gradle version
     - ./gradlew --version
 
 script:
