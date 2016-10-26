@@ -14,6 +14,7 @@ EasyMVP is powerful and simple, it uses annotation processing and bytecode weavi
 - [Clean Architecture Usage](#clean-architecture-usage)
     - [UseCase](#usecase)
     - [DataMapper](#datamapper)
+- [FAQ](#faq)
 - [Documentation](#documentation)
 - [License](#license)
 
@@ -103,9 +104,10 @@ Presenter's creation, lifecycle-binding, caching and destruction gets handled au
 
 For injecting presenter into your activity/fragment/view, you can use [`@Presenter`](http://6thsolution.github.io/EasyMVP/api-javadoc/easymvp/annotation/Presenter.html) annotation. Also during configuration changes, previous instance of the presenter will be injected.
 
-EasyMVP uses loader
-Presenter instance will be set to null after [`LoaderCallbacks#onLoadFinished`](https://developer.android.com/reference/android/app/LoaderManager.LoaderCallbacks.html#onLoadFinished)
+EasyMVP uses [Loaders](https://developer.android.com/guide/components/loaders.html) to preserve presenters across configurations changes.
 
+Presenter instance will be set to null, after ``onDestroyed`` method injection.
+ 
 `@ActivityView` example:
 ```java
 @ActivityView(layout = R.layout.my_activity, presenter = MyPresenter.class)
@@ -357,6 +359,12 @@ public class MyPresenter extends RxPresenter<MyView> {
     }
 }
 ```
+
+## FAQ
+How does EasyMVP work under the hood?
+
+- For each annotated class with ``@ActivityView``, ``@FragmentView`` or ``@CustomView``, EasyMVP generates ``*_ViewDelegate`` class in the same package. These classes are responsible for binding presenter's lifecycle.
+- EasyMVP uses bytecode weaving to call delegate classes inside your view implementation classes. You can find these manipulated classes in `build/weaver` folder.
 
 ## Documentation
 EasyMVP [API](http://6thsolution.github.io/EasyMVP/api-javadoc/): Javadocs for the current API release
