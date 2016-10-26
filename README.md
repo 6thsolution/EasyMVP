@@ -1,9 +1,9 @@
 # EasyMVP 
 [![Build Status](https://travis-ci.org/6thsolution/EasyMVP.svg?branch=master)](https://travis-ci.org/6thsolution/EasyMVP)  [ ![Download](https://api.bintray.com/packages/6thsolution/easymvp/easymvp-plugin/images/download.svg) ](https://bintray.com/6thsolution/easymvp/easymvp-plugin/_latestVersion)
 
-A full-featured framework that allows building android applications following the principles of Clean Architecture.
+A powerful, and very simple MVP library with **annotation processing** and **bytecode weaving**.
 
-EasyMVP is powerful and simple, it uses annotation processing and bytecode weaving to eliminate the boilerplate code that you need to implement MVP.
+EasyMVP eliminates the boilerplate code for dealing with MVP implementation.
 
 - [Features](#features)
 - [Installation](#installation)
@@ -15,7 +15,8 @@ EasyMVP is powerful and simple, it uses annotation processing and bytecode weavi
     - [UseCase](#usecase)
     - [DataMapper](#datamapper)
 - [FAQ](#faq)
-- [Documentation](#documentation)
+- [Documentations](#documentations)
+- [Author](#author)
 - [License](#license)
 
 ## Features
@@ -366,10 +367,13 @@ How does EasyMVP work under the hood?
 - For each annotated class with ``@ActivityView``, ``@FragmentView`` or ``@CustomView``, EasyMVP generates ``*_ViewDelegate`` class in the same package. These classes are responsible for binding presenter's lifecycle.
 - EasyMVP uses bytecode weaving to call delegate classes inside your view implementation classes. You can find these manipulated classes in `build/weaver` folder.
 
-## Documentation
+## Documentations
 EasyMVP [API](http://6thsolution.github.io/EasyMVP/api-javadoc/): Javadocs for the current API release
 
 EasyMVP [RX-API](http://6thsolution.github.io/EasyMVP/rx-api-javadoc/): Javadocs for the current RX-API (Clean Architecture API) release
+
+## Author
+[Saeed Masoumi](https://github.com/SaeedMasoumi) 
 
 ## License
 ```
