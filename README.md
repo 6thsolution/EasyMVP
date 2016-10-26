@@ -117,6 +117,11 @@ public class MyActivity extends AppCompatActivity implements MyView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         // Now presenter is injected.
     }
     
@@ -143,8 +148,8 @@ public class MyFragment extends Fragment implements MyView {
     MyPresenter presenter;
     
     @Override
-    public void onActivityCreated(Bundle bundle) {
-        super.onActivityCreated(bundle);
+    public void onResume() {
+        super.onResume();
         // Now presenter is injected.
     }
     
