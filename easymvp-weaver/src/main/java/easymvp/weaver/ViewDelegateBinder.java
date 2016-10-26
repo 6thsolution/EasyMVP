@@ -24,7 +24,6 @@ import java.util.Set;
 import easymvp.annotation.ActivityView;
 import easymvp.annotation.CustomView;
 import easymvp.annotation.FragmentView;
-import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
@@ -148,9 +147,10 @@ public class ViewDelegateBinder extends WeaverProcessor {
 
         AfterSuper(classInjector, onAttachedToWindow,
                    applied ? STATEMENT_CALL_INITIALIZE_WITH_FACTORY : STATEMENT_CALL_INITIALIZE);
-//        beforeSuper(classInjector, onDetachedFromWindow, STATEMENT_CALL_DETACH);
+//        atTheBeginning(classInjector, onDetachedFromWindow, STATEMENT_CALL_DETACH);
 
     }
+
     /**
      * It is possible that aspectj already manipulated this method, so in this case we should inject
      * our code into {@code methodName_aroundBodyX()} which X is the lowest number of all similar
@@ -270,6 +270,29 @@ public class ViewDelegateBinder extends WeaverProcessor {
                     .inject();
         }
 
+    }
+
+    private void atTheBeginning(ClassInjector classInjector, CtMethod method,
+                                String statement) throws Exception {
+        if (method.getName().contains(ASPECTJ_GEN_METHOD)) {
+            statement = statement.replaceAll("\\$s", "\\ajc\\$this");
+            classInjector.insertMethod(method.getName(),
+                    ctClassToString(method.getParameterTypes()))
+                    .ifExists()
+                    .atTheBeginning(statement).inject().inject();
+        } else {
+            statement = statement.replaceAll("\\$s", "this");
+            classInjector.insertMethod(method.getName(),
+                    ctClassToString(method.getParameterTypes()))
+                    .ifExistsButNotOverride()
+                    .override("{" +
+                            statement +
+                            "super." + method.getName() + "($$);" +
+                            "}").inject()
+                    .ifExists()
+                    .atTheBeginning(statement).inject()
+                    .inject();
+        }
     }
 
     private void insertDelegateField(ClassInjector classInjector, String delegateClassName)

@@ -18,15 +18,17 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
  */
 @MediumTest
 @RunWith(AndroidJUnit4.class)
-public class ActivityViewTest {
-
+public class FragmentViewTest {
     @Rule
-    public ActivityTestRule<SimpleActivity> activityRule = new ActivityTestRule<>(
-            SimpleActivity.class);
+    public ActivityTestRule<SimpleActivityWithFragment> activityRule = new ActivityTestRule<>(
+            SimpleActivityWithFragment.class);
 
     @Test
     public void layout_already_inflated_with_ActivityView_annotation() {
         onView(withId(R.id.base_layout)).check(matches(isDisplayed()));
     }
-
+    @Test
+    public void fragment_already_attached(){
+        onView(withId(R.id.base_fragment)).check(matches(isDisplayed()));
+    }
 }

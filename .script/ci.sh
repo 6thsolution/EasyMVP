@@ -6,5 +6,5 @@ set -e
 ./gradlew clean easymvp-weaver:jar
 # Manipulate java classes
 ./gradlew transformClassesWithWeaverForDebug --info
-# Run test
+# Run tests
 ./gradlew connectedAndroidTest -PdisablePreDex -PwithDexcount -Dscan --info

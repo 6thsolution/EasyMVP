@@ -21,7 +21,7 @@ git checkout -t origin/gh-pages
 server=https://oss.jfrog.org
 repo=oss-snapshot-local
 
-# Maven artifact location
+# jfrog artifacts location
 for name in easymvp-api easymvp-rx-api
 	do
 	artifact=com/sixthsolution/easymvp/$name

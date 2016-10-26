@@ -3,6 +3,8 @@
 
 A full-featured framework that allows building android applications following the principles of Clean Architecture.
 
+EasyMVP is powerful and simple, it uses annotation processing and bytecode weaving to eliminate the boilerplate code that you need to implement MVP.
+
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -87,8 +89,7 @@ To understand when the lifecycle methods of the presenter are called take a look
 | ------------------ |----------------| -------------------| ------------------------|
 | ``onViewAttached`` | ``onStart``    | ``onResume``       | ``onAttachedToWindow``  |
 | ``onViewDetached`` | ``onStop``     | ``onPause``        | ``onDetachedFromWindow``|
-
-`Presenter#onDestroyed` will be invoked inside [`Loader#onReset`](https://developer.android.com/reference/android/content/Loader.html#onReset()).
+| ``onDestroyed``    | ``onDestroy``  | ``onDestroy``      | ``onDetachedFromWindow``|
 
 ### View Annotations
 
@@ -102,6 +103,7 @@ Presenter's creation, lifecycle-binding, caching and destruction gets handled au
 
 For injecting presenter into your activity/fragment/view, you can use [`@Presenter`](http://6thsolution.github.io/EasyMVP/api-javadoc/easymvp/annotation/Presenter.html) annotation. Also during configuration changes, previous instance of the presenter will be injected.
 
+EasyMVP uses loader
 Presenter instance will be set to null after [`LoaderCallbacks#onLoadFinished`](https://developer.android.com/reference/android/app/LoaderManager.LoaderCallbacks.html#onLoadFinished)
 
 `@ActivityView` example:
@@ -131,7 +133,6 @@ public class MyActivity extends AppCompatActivity implements MyView {
 ```
 
 - You can specify the layout in `@ActivityView#layout` and EasyMVP will automatically inflate it for you.
-- You have access to the presenter instance after `super.onCreate(savedInstanceState);` in `onCreate` method.
 
 `@FragmentView` example:
 ```java
@@ -158,7 +159,6 @@ public class MyFragment extends Fragment implements MyView {
     }
 }
 ```
-- You have access to the presenter instance after `super.onActivityCreated(bundle);` in `onActivityCreated` method.
 
 `@CustomView` example:
 ```java
@@ -185,7 +185,6 @@ public class MyCustomView extends View implements MyView {
     }
 }
 ```
-- You have access to the presenter instance after `super.onAttachedToWindow();` in `onAttachedToWindow` method.
 
 ### Injecting with Dagger
 `@Presenter` annotation will instantiate your presenter class by calling its default constructor, So you can't pass any objects to the constructor.
