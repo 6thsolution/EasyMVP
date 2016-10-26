@@ -367,6 +367,9 @@ How does EasyMVP work under the hood?
 - For each annotated class with ``@ActivityView``, ``@FragmentView`` or ``@CustomView``, EasyMVP generates ``*_ViewDelegate`` class in the same package. These classes are responsible for binding presenter's lifecycle.
 - EasyMVP uses bytecode weaving to call delegate classes inside your view implementation classes. You can find these manipulated classes in `build/weaver` folder.
 
+Is there any restrictions on using EasyMVP?
+- EasyMVP uses android's transform API for bytecode weaving. Related to this [issue](https://code.google.com/p/android/issues/detail?id=210730) the [Jack](https://source.android.com/source/jack.html) toolchain doesn't support it yet.
+
 ## Documentations
 EasyMVP [API](http://6thsolution.github.io/EasyMVP/api-javadoc/): Javadocs for the current API release
 
