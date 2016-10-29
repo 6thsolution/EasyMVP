@@ -60,7 +60,7 @@ class EasyMVPPlugin implements Plugin<Project> {
 
         if (isKotlinProject) {
             project.dependencies.add("kapt", "$GROUP:easymvp-compiler:$VERSION")
-        } else if (hasConfiguration("annotationProcessor")) {
+        } else if (hasConfiguration("annotationProcessor") && !hasPlugin("com.neenbedankt.android-apt")) {
             project.dependencies.add("annotationProcessor", "$GROUP:easymvp-compiler:$VERSION")
         } else {
             project.dependencies.add("apt", "$GROUP:easymvp-compiler:$VERSION")
