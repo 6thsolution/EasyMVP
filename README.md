@@ -47,6 +47,12 @@ android {
   ...
 }
 ```
+There is no need for [android-apt](https://bitbucket.org/hvisser/android-apt) plugin for android gradle plugin version 2.2.0-alpha1 or higher, but if your are using it, Please apply `easymvp` plugin after `android-apt` plugin.
+```groovy
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'easymvp'
+```
+
 For reactive API, simply apply the 'easymvp-rx' plugin in your module-level `build.gradle`  and then add the RxJava dependency:
 ```groovy
 apply plugin: 'easymvp-rx'
