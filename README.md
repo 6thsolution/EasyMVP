@@ -47,7 +47,7 @@ android {
   ...
 }
 ```
-There is no need for [android-apt](https://bitbucket.org/hvisser/android-apt) plugin for android gradle plugin version 2.2.0-alpha1 or higher, but if your are using it, Please apply `easymvp` plugin after `android-apt` plugin.
+There is no need for [android-apt](https://bitbucket.org/hvisser/android-apt) plugin for android gradle plugin version 2.2.0-alpha1 or higher. But if your are using it, please apply `easymvp` plugin after `android-apt` plugin.
 ```groovy
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'easymvp'
