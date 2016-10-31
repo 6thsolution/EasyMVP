@@ -1,5 +1,6 @@
 # EasyMVP 
 [![Build Status](https://travis-ci.org/6thsolution/EasyMVP.svg?branch=master)](https://travis-ci.org/6thsolution/EasyMVP)  [ ![Download](https://api.bintray.com/packages/6thsolution/easymvp/easymvp-plugin/images/download.svg) ](https://bintray.com/6thsolution/easymvp/easymvp-plugin/_latestVersion)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-EasyMVP-orange.svg?style=flat)](http://android-arsenal.com/details/1/4579)
 
 A powerful, and very simple MVP library with **annotation processing** and **bytecode weaving**.
 
