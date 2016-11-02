@@ -3,7 +3,10 @@ package com.sixthsolution.easymvp.test;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.RelativeLayout;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import easymvp.annotation.ActivityView;
 import easymvp.annotation.Presenter;
 
@@ -17,9 +20,14 @@ public class SimpleActivity extends AppCompatActivity implements View1 {
     @Presenter
     TestPresenter testPresenter;
 
+    @BindView(R.id.base_layout)
+    RelativeLayout view;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ButterKnife.bind(this);
+        assertNotNull(view);
     }
 
     @Override

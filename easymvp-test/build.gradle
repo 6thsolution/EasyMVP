@@ -35,6 +35,10 @@ dependencies {
     compile deps.javax
     compile project(':easymvp-rx-api')
     annotationProcessor project(':easymvp-compiler')
+    //Butterknife
+    compile 'com.jakewharton:butterknife:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+
     weaver project(':easymvp-weaver')
     androidTestCompile 'com.android.support:support-annotations:25.0.0'
     androidTestCompile 'com.android.support.test:runner:0.5'
