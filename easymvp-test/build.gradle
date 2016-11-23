@@ -33,6 +33,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile project(':easymvp-api')
     compile deps.javax
+    compile deps.rxJava
+
     compile project(':easymvp-rx-api')
     annotationProcessor project(':easymvp-compiler')
     //Butterknife
