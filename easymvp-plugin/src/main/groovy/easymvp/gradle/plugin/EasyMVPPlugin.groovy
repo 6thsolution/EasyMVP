@@ -66,11 +66,11 @@ class EasyMVPPlugin implements Plugin<Project> {
             project.dependencies.add("apt", "$GROUP:easymvp-compiler:$VERSION")
         }
 
-        project.configurations.all {
-            resolutionStrategy {
-                force 'com.google.code.findbugs:jsr305:1.3.9', 'com.google.code.findbugs:jsr305:2.0.1'
-            }
-        }
+//        project.configurations.all {
+//            resolutionStrategy {
+//                force 'com.google.code.findbugs:jsr305:1.3.9', 'com.google.code.findbugs:jsr305:2.0.1'
+//            }
+//        }
 
         project.android {
             packagingOptions {
