@@ -1,6 +1,6 @@
 package easymvp.usecase;
 
-import javax.annotation.ParametersAreNullableByDefault;
+import javax.annotation.Nullable;
 
 import easymvp.executer.PostExecutionThread;
 import easymvp.executer.UseCaseExecutor;
@@ -31,7 +31,7 @@ public abstract class UseCase<P, Q> {
     /**
      * Executes use case. It should call {@link #interact(Object)} to get response value.
      */
-    public abstract P execute(@ParametersAreNullableByDefault Q param);
+    public abstract P execute(@Nullable Q param);
 
     /**
      * A hook for interacting with the given parameter(request value) and returning a response value for
@@ -42,7 +42,7 @@ public abstract class UseCase<P, Q> {
      * @param param The request value.
      * @return Returns the response value.
      */
-    protected abstract P interact(@ParametersAreNullableByDefault Q param);
+    protected abstract P interact(@Nullable Q param);
 
     public Scheduler getUseCaseExecutor() {
         return useCaseExecutor.getScheduler();

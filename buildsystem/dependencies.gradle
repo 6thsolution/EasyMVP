@@ -18,7 +18,7 @@ ext.deps = [
         javaPoet                : "com.squareup:javapoet:1.7.0",
         rxJava                  : "io.reactivex:rxjava:1.2.1",
         javax                   : "javax.inject:javax.inject:1",
-        jsr305                  : "com.google.code.findbugs:jsr305:3.0.1",
+        jsr305                  : "com.google.code.findbugs:jsr305:2.0.1",
         //tests dependencies
         junit                   : "junit:junit:4.12",
         truth                   : "com.google.truth:truth:0.30",

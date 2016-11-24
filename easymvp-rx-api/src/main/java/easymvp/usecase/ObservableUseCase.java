@@ -1,6 +1,6 @@
 package easymvp.usecase;
 
-import javax.annotation.ParametersAreNullableByDefault;
+import javax.annotation.Nullable;
 
 import easymvp.executer.PostExecutionThread;
 import easymvp.executer.UseCaseExecutor;
@@ -33,12 +33,12 @@ public abstract class ObservableUseCase<R, Q> extends UseCase<Observable, Q> {
     }
 
     @Override
-    public Observable<R> execute(@ParametersAreNullableByDefault Q param) {
+    public Observable<R> execute(@Nullable Q param) {
         return interact(param).compose(getSchedulersTransformer());
     }
 
     @Override
-    protected abstract Observable<R> interact(@ParametersAreNullableByDefault Q param);
+    protected abstract Observable<R> interact(@Nullable Q param);
 
     private Observable.Transformer<? super R, ? extends R> getSchedulersTransformer() {
         return schedulersTransformer;

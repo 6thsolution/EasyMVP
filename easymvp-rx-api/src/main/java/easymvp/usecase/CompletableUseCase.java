@@ -1,7 +1,7 @@
 package easymvp.usecase;
 
 
-import javax.annotation.ParametersAreNullableByDefault;
+import javax.annotation.Nullable;
 
 import easymvp.executer.PostExecutionThread;
 import easymvp.executer.UseCaseExecutor;
@@ -33,7 +33,7 @@ public abstract class CompletableUseCase<Q> extends UseCase<Completable, Q> {
     }
 
     @Override
-    public Completable execute(@ParametersAreNullableByDefault Q param) {
+    public Completable execute(@Nullable Q param) {
         return interact(param).compose(getSchedulersTransformer());
     }
 
