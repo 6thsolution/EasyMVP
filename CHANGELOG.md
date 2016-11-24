@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+Version 1.0.3 
+-------------
+
+_2016-11-24_
+
+* Downgrading the version of `jsr305`.
+
 Version 1.0.2 
 -------------
 
