@@ -36,7 +36,7 @@ buildscript {
     jcenter()
    }
   dependencies {
-    classpath 'com.sixthsolution.easymvp:easymvp-plugin:1.0.1'
+    classpath 'com.sixthsolution.easymvp:easymvp-plugin:1.0.2'
   }
 }
 ```

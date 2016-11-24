@@ -7,4 +7,6 @@ targetCompatibility = ver.targetCompatibilityVersion
 dependencies {
     compile project(':easymvp-api')
     compileOnly deps.rxJava
+    compileOnly deps.jsr305
+
 }

@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+Version 1.0.2 
+-------------
+
+_2016-11-24_
+
+* Use jsr305 at compiliation step.
+
 Version 1.0.1 
 -------------
 
