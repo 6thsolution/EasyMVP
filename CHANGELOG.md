@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+Version 1.0.4
+-------------
+
+_2016-11-28_
+
+* Use [LoaderManager](https://developer.android.com/reference/android/app/LoaderManager.html) for `android.app.Activity` [#16](https://github.com/6thsolution/EasyMVP/issues/16)
+
 Version 1.0.3 
 -------------
 
