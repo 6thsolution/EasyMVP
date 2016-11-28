@@ -1,4 +1,4 @@
-package com.sixthsolution.easymvp.test;
+package com.sixthsolution.easymvp.test.usecase;
 
 
 import easymvp.executer.PostExecutionThread;

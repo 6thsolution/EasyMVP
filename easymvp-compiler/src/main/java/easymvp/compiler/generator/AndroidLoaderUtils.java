@@ -66,7 +66,7 @@ public class AndroidLoaderUtils {
     private static ClassName get(ViewType viewType, ClassName supportVersion,
                                  ClassName defaultVersion) {
         switch (viewType) {
-            case ACTIVITY:
+            case SUPPORT_ACTIVITY:
             case SUPPORT_FRAGMENT:
                 return supportVersion;
             case FRAGMENT:

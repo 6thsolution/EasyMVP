@@ -1,7 +1,5 @@
 package com.sixthsolution.easymvp.test.usecase;
 
-import com.sixthsolution.easymvp.test.IsNumberOdd;
-
 import org.junit.Before;
 import org.junit.Test;
 

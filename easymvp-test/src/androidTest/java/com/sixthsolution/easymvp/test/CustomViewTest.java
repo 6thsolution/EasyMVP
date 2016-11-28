@@ -13,8 +13,8 @@ import org.junit.Test;
 public class CustomViewTest {
 
     @Rule
-    public ActivityTestRule<SimpleActivityWithCustomView> activityRule = new ActivityTestRule<>(
-            SimpleActivityWithCustomView.class);
+    public ActivityTestRule<SimpleAppCompatActivityWithCustomView> activityRule = new ActivityTestRule<>(
+            SimpleAppCompatActivityWithCustomView.class);
 
     @Test
     public void custom_view_already_attached() {

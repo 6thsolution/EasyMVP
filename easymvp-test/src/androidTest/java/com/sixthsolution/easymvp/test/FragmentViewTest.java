@@ -20,8 +20,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 @RunWith(AndroidJUnit4.class)
 public class FragmentViewTest {
     @Rule
-    public ActivityTestRule<SimpleActivityWithFragment> activityRule = new ActivityTestRule<>(
-            SimpleActivityWithFragment.class);
+    public ActivityTestRule<SimpleAppCompatActivityWithFragment> activityRule = new ActivityTestRule<>(
+            SimpleAppCompatActivityWithFragment.class);
 
     @Test
     public void layout_already_inflated_with_ActivityView_annotation() {

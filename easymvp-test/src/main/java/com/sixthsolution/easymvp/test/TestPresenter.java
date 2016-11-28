@@ -17,6 +17,8 @@ public class TestPresenter extends AbstractPresenter<View1> {
     public void onViewAttached(View1 view) {
         super.onViewAttached(view);
         isOnViewAttachedCalled = true;
+        Log.d("TestPresenter","onViewAttached Called");
+
     }
 
     @Override

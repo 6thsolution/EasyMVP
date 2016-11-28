@@ -15,7 +15,7 @@ import static junit.framework.Assert.assertTrue;
  * @author Saeed Masoumi (saeed@6thsolution.com)
  */
 @ActivityView(presenter = TestPresenter.class, layout = R.layout.activity_main)
-public class SimpleActivityWithFragment extends AppCompatActivity implements View1 {
+public class SimpleAppCompatActivityWithFragment extends AppCompatActivity implements View1 {
 
     @Presenter
     TestPresenter testPresenter;

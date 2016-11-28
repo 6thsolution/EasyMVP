@@ -31,6 +31,7 @@ import easymvp.compiler.generator.decorator.ActivityDecorator;
 import easymvp.compiler.generator.decorator.BaseDecorator;
 import easymvp.compiler.generator.decorator.CustomViewDecorator;
 import easymvp.compiler.generator.decorator.FragmentDecorator;
+import easymvp.compiler.generator.decorator.SupportActivityDecorator;
 import easymvp.compiler.generator.decorator.SupportFragmentDecorator;
 
 import static easymvp.compiler.util.ClassNames.PROVIDER;
@@ -75,6 +76,9 @@ public class DelegateClassGenerator extends ClassGenerator {
         switch (viewType) {
             case ACTIVITY:
                 decorator = new ActivityDecorator(this);
+                break;
+            case SUPPORT_ACTIVITY:
+                decorator = new SupportActivityDecorator(this);
                 break;
             case FRAGMENT:
                 decorator = new FragmentDecorator(this);

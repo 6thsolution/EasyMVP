@@ -16,14 +16,13 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 /**
  * @author Saeed Masoumi (saeed@6thsolution.com)
  */
-
 @MediumTest
 @RunWith(AndroidJUnit4.class)
-public class ActivityViewTest {
+public class AppCompatActivityViewTest {
 
     @Rule
-    public ActivityTestRule<SimpleActivity> activityRule = new ActivityTestRule<>(
-            SimpleActivity.class);
+    public ActivityTestRule<SimpleAppCompatActivity> activityRule = new ActivityTestRule<>(
+            SimpleAppCompatActivity.class);
 
     @Test
     public void layout_already_inflated_with_ActivityView_annotation() {

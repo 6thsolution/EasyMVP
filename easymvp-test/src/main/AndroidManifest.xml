@@ -10,16 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
-        <activity android:name=".SimpleActivity">
+        <activity android:name=".SimpleAppCompatActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".SimpleActivityWithFragment">
+        <activity android:name=".SimpleAppCompatActivityWithFragment">
         </activity>
-        <activity android:name=".SimpleActivityWithCustomView">
+        <activity android:name=".SimpleAppCompatActivityWithCustomView">
+        </activity>
+        <activity android:name=".SimpleActivity">
         </activity>
     </application>
 

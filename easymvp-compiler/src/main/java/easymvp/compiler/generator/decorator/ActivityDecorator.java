@@ -6,14 +6,15 @@ import com.squareup.javapoet.MethodSpec;
 
 import easymvp.compiler.generator.DelegateClassGenerator;
 
-import static easymvp.compiler.generator.AndroidLoaderUtils.getSupportLoader;
-import static easymvp.compiler.generator.AndroidLoaderUtils.getSupportLoaderCallbacks;
-import static easymvp.compiler.generator.AndroidLoaderUtils.getSupportLoaderManager;
-import static easymvp.compiler.generator.AndroidLoaderUtils.getSupportPresenterLoader;
+import static easymvp.compiler.generator.AndroidLoaderUtils.getLoader;
+import static easymvp.compiler.generator.AndroidLoaderUtils.getLoaderCallbacks;
+import static easymvp.compiler.generator.AndroidLoaderUtils.getLoaderManager;
+import static easymvp.compiler.generator.AndroidLoaderUtils.getPresenterLoader;
 
 /**
  * @author Saeed Masoumi (saeed@6thsolution.com)
  */
+
 public class ActivityDecorator extends BaseDecorator {
 
     public ActivityDecorator(DelegateClassGenerator delegateClassGenerator) {
@@ -22,8 +23,8 @@ public class ActivityDecorator extends BaseDecorator {
 
     @Override
     public MethodSpec getLoaderManagerMethod(MethodSpec.Builder methodSignature) {
-        return methodSignature.addStatement("return view.getSupportLoaderManager()")
-                .returns(getSupportLoaderManager())
+        return methodSignature.addStatement("return view.getLoaderManager()")
+                .returns(getLoaderManager())
                 .build();
     }
 
@@ -46,16 +47,16 @@ public class ActivityDecorator extends BaseDecorator {
 
     @Override
     protected ClassName getPresenterLoaderClass() {
-        return getSupportPresenterLoader();
+        return getPresenterLoader();
     }
 
     @Override
     protected ClassName getLoaderCallbacksClass() {
-        return getSupportLoaderCallbacks();
+        return getLoaderCallbacks();
     }
 
     @Override
     protected ClassName getLoaderClass() {
-        return getSupportLoader();
+        return getLoader();
     }
 }

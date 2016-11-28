@@ -6,6 +6,7 @@ package easymvp.compiler;
 public enum ViewType {
 
     ACTIVITY,
+    SUPPORT_ACTIVITY,
     FRAGMENT,
     SUPPORT_FRAGMENT,
     CUSTOM_VIEW

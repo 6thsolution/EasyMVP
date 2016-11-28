@@ -16,7 +16,7 @@ import static junit.framework.Assert.assertTrue;
  */
 
 @ActivityView(presenter = TestPresenter.class)
-public class SimpleActivityWithCustomView extends AppCompatActivity implements View1 {
+public class SimpleAppCompatActivityWithCustomView extends AppCompatActivity implements View1 {
 
     @Presenter
     TestPresenter testPresenter;
