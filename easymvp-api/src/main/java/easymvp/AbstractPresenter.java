@@ -21,6 +21,7 @@ public abstract class AbstractPresenter<V> implements Presenter<V> {
 
     @Override
     public void onViewDetached() {
+        this.view.clear();
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import easymvp.annotation.FragmentView;
 import easymvp.annotation.Presenter;
 
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
@@ -41,6 +42,7 @@ public class SimpleFragment extends Fragment implements View1 {
     public void onPause() {
         super.onPause();
         assertTrue(testPresenter.isOnViewDetachedCalled());
+        assertFalse(testPresenter.isViewAttached());
     }
 
     @Override

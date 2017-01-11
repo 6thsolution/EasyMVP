@@ -10,6 +10,7 @@ import butterknife.ButterKnife;
 import easymvp.annotation.ActivityView;
 import easymvp.annotation.Presenter;
 
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
@@ -41,6 +42,7 @@ public class SimpleAppCompatActivity extends AppCompatActivity implements View1 
     protected void onStop() {
         super.onStop();
         assertTrue(testPresenter.isOnViewDetachedCalled());
+        assertFalse(testPresenter.isViewAttached());
     }
 
     @Override
