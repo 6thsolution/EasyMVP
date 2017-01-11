@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+Version 1.0.5
+-------------
+
+_2017-01-11_
+
+*  Clear the view reference in `AbstractPresenter#onViewDetached`.
+
 Version 1.0.4
 -------------
 
