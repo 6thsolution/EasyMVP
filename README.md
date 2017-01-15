@@ -377,6 +377,9 @@ How does EasyMVP work under the hood?
 Is there any restrictions on using EasyMVP?
 - EasyMVP uses android's transform API for bytecode weaving. Related to this [issue](https://code.google.com/p/android/issues/detail?id=210730) the [Jack](https://source.android.com/source/jack.html) toolchain doesn't support it yet.
 
+Does it support kotlin?
+- Yes, See this [issue](https://github.com/6thsolution/EasyMVP/issues/22) for details.
+
 ## Documentations
 EasyMVP [API](http://6thsolution.github.io/EasyMVP/api-javadoc/): Javadocs for the current API release
 
