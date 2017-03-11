@@ -390,7 +390,7 @@ EasyMVP [RX-API](http://6thsolution.github.io/EasyMVP/rx-api-javadoc/): Javadocs
 
 ## License
 ```
-Copyright 2016 6thSolution
+Copyright 2016-2017 6thSolution Technologies Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
