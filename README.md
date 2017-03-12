@@ -63,6 +63,15 @@ dependencies {
 }
 
 ```
+Also EasyMVP supports RxJava2:
+```groovy
+apply plugin: 'easymvp-rx2'
+
+dependencies {
+  compile 'io.reactivex.rxjava2:rxjava:x.y.z'
+}
+
+```
 
 ## Usage
 

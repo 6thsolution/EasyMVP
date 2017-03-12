@@ -22,7 +22,7 @@ server=https://oss.jfrog.org
 repo=oss-snapshot-local
 
 # jfrog artifacts location
-for name in easymvp-api easymvp-rx-api
+for name in easymvp-api easymvp-rx-api easymvp-rx2-api
 	do
 	artifact=com/sixthsolution/easymvp/$name
 	path=$server/$repo/$artifact
