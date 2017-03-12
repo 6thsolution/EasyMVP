@@ -17,6 +17,7 @@ ext.deps = [
         weaverProcessor         : "io.saeid.weaver:weaver-processor:1.0.0-beta5",
         javaPoet                : "com.squareup:javapoet:1.7.0",
         rxJava                  : "io.reactivex:rxjava:1.2.1",
+        rxJava2                 : "io.reactivex.rxjava2:rxjava:2.0.7",
         javax                   : "javax.inject:javax.inject:1",
         jsr305                  : "com.google.code.findbugs:jsr305:2.0.1",
         //tests dependencies

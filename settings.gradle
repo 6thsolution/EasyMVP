@@ -6,5 +6,5 @@ include ':easymvp-weaver', ':easymvp-api', ':easymvp-compiler', ':easymvp-plugin
 //        project.name = project.name.substring(slash + 1)
 //    }
 //}
-include 'easymvp-rx-api'
+include 'easymvp-rx-api', 'easymvp-rx2-api'
 
