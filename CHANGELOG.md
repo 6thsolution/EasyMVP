@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+Version 1.1.0
+-------------
+
+_2017-03-12_
+
+*  Support RxJava 2 (special thanks to [lujiajing1126](https://github.com/lujiajing1126)).
+
+
 Version 1.0.5
 -------------
 

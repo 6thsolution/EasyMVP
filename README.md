@@ -36,7 +36,7 @@ buildscript {
     jcenter()
    }
   dependencies {
-    classpath 'com.sixthsolution.easymvp:easymvp-plugin:1.0.5'
+    classpath 'com.sixthsolution.easymvp:easymvp-plugin:1.1.0'
   }
 }
 ```
@@ -72,6 +72,8 @@ dependencies {
 }
 
 ```
+
+**Note:** All snapshot versions are available on [jfrog](https://oss.jfrog.org/oss-snapshot-local/com/sixthsolution/easymvp/)
 
 ## Usage
 
@@ -393,6 +395,8 @@ Does it support kotlin?
 EasyMVP [API](http://6thsolution.github.io/EasyMVP/api-javadoc/): Javadocs for the current API release
 
 EasyMVP [RX-API](http://6thsolution.github.io/EasyMVP/rx-api-javadoc/): Javadocs for the current RX-API (Clean Architecture API) release
+
+EasyMVP [RX2-API](http://6thsolution.github.io/EasyMVP/rx2-api-javadoc/): Javadocs for the current RX2-API (Clean Architecture API) release
 
 ## Author
 [Saeed Masoumi](https://github.com/SaeedMasoumi) 
