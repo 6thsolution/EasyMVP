@@ -19,6 +19,7 @@ EasyMVP eliminates the boilerplate code for dealing with MVP implementation.
 - [Documentations](#documentations)
 - [Author](#author)
 - [License](#license)
+- [Changelog](https://github.com/6thsolution/EasyMVP/blob/master/CHANGELOG.md)
 
 ## Features
 * Easy integration
