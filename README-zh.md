@@ -7,19 +7,20 @@
 
 EasyMVP消除了开发MVP时多余的模板代码。
 
-- [功能](#features)
-- [安装](#installation)
-- [用途](#usage)
+- [功能](#功能)
+- [安装](#安装)
+- [用途](#用途)
     - [Presenter](#presenter)
-    - [View 注解](#view-annotations)
-    - [Dagger 注入](#injecting-with-dagger)
-- [Clean Architecture用途](#clean-architecture-usage)
-    - [用例](#usecase)
+    - [View 注解](#view-注解)
+    - [Dagger 注入](#dagger-注入)
+- [Clean Architecture 用途](#clean-architecture-用途)
+    - [用例](#用例)
     - [DataMapper](#datamapper)
-- [问答](#faq)
-- [文档](#documentations)
-- [作者](#author)
-- [许可](#license)
+- [问答](#问答)
+- [文档](#文档)
+- [作者](#作者)
+- [翻译](#翻译)
+- [许可](#许可)
 - [更变日志](https://github.com/6thsolution/EasyMVP/blob/master/CHANGELOG.md)
 
 ## 功能
