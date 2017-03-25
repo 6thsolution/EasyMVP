@@ -251,7 +251,7 @@ public class MyActivity extends AppCompatActivity implements MyView {
 
 **千万不要** 在activities的`super.onCreate(savedInstanceState);`， fragments的`super.onActivityCreated(bundle);`， 和定制View的`super.onAttachedToWindow();`之后注入依赖。
 
-## Clean Architecture用途
+## Clean Architecture 用途
 使用了'easymvp-rx'插件之后，你就可以遵从[Clean Architecture](https://blog.8thlight.com/uncle-bob/2012/08/13/the-clean-architecture.html)的原则。之前的部分是讲述presentation-layer， 现在我们来讲解domain-layer。
 
 **Domain Layer** 持有你所有的业务逻辑, 他封装，以及实现所有系统用例。
