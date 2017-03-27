@@ -6,6 +6,13 @@ A powerful, and very simple MVP library with **annotation processing** and **byt
 
 EasyMVP eliminates the boilerplate code for dealing with MVP implementation.
 
+<table>
+  <tr>
+    <td>:book: <a href="https://github.com/6thsolution/EasyMVP/blob/master/README-zh.md">Chinese Readme 中文文档
+</a></td>
+  </tr>
+</table>
+
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
