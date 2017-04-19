@@ -78,8 +78,6 @@ public class EasyMVPProcessor extends AbstractProcessor {
     /** A flag that allow processor to generate presenter loaders only once to avoid IO exception */
     private boolean isLoadersCopied = false;
     private boolean isSupportLoadersCopied = false;
-    private boolean needLoader = false;
-    private boolean needSupportLoader = false;
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
@@ -110,13 +108,13 @@ public class EasyMVPProcessor extends AbstractProcessor {
     }
 
     private void generatePresenterLoaders() {
-        if (!isLoadersCopied && needLoader) {
+        if (!isLoadersCopied) {
             PresenterLoaderGenerator
                     androidPresenterLoader = new PresenterLoaderGenerator(false);
             write(androidPresenterLoader);
             isLoadersCopied = true;
         }
-        if (!isSupportLoadersCopied && needSupportLoader) {
+        if (!isSupportLoadersCopied) {
             PresenterLoaderGenerator supportLibraryPresenterLoader =
                     new PresenterLoaderGenerator(true);
             write(supportLibraryPresenterLoader);
@@ -180,10 +178,8 @@ public class EasyMVPProcessor extends AbstractProcessor {
         ActivityView annotation = element.getAnnotation(ActivityView.class);
         delegateClassGenerator.setResourceID(annotation.layout());
         if (isSupportActivity) {
-            needSupportLoader = true;
             delegateClassGenerator.setViewType(ViewType.SUPPORT_ACTIVITY);
         } else {
-            needLoader = true;
             delegateClassGenerator.setViewType(ViewType.ACTIVITY);
         }
         try {
@@ -217,10 +213,8 @@ public class EasyMVPProcessor extends AbstractProcessor {
         DelegateClassGenerator delegateClassGenerator =
                 getDelegate(enclosingElement, delegateClassMap);
         if (isFragment) {
-            needLoader = true;
             delegateClassGenerator.setViewType(ViewType.FRAGMENT);
         } else {
-            needSupportLoader = true;
             delegateClassGenerator.setViewType(ViewType.SUPPORT_FRAGMENT);
         }
         FragmentView annotation = element.getAnnotation(FragmentView.class);
