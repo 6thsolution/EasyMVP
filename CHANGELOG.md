@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+Version 1.1.1
+-------------
+
+_2017-04-19_
+
+*  Force compiler to generate Loaders classes
+
+
 Version 1.1.0
 -------------
 
