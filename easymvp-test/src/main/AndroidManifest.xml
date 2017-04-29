@@ -23,6 +23,8 @@
         </activity>
         <activity android:name=".SimpleActivity">
         </activity>
+        <activity android:name=".conductor.ConductorActivity">
+        </activity>
     </application>
 
 </manifest>
