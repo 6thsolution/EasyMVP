@@ -24,6 +24,7 @@ import java.util.Set;
 import easymvp.annotation.ActivityView;
 import easymvp.annotation.CustomView;
 import easymvp.annotation.FragmentView;
+import easymvp.annotation.conductor.ConductorController;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
@@ -54,6 +55,10 @@ public class ViewDelegateBinder extends WeaverProcessor {
     private static final String FIELD_PRESENTER_PROVIDER = "$$presenterProvider";
 
     private static final String BUNDLE_CLASS = "android.os.Bundle";
+    private static final String LAYOUT_INFLATER_CLASS = "android.view.LayoutInflater";
+    private static final String VIEW_GROUP_CLASS = "android.view.ViewGroup";
+    private static final String VIEW_CLASS = "android.view.View";
+
     private static final String POINT_CUT = "org.aspectj.lang.JoinPoint";
 
     private static final String STATEMENT_CALL_INITIALIZE = "$s." + FIELD_VIEW_DELEGATE + ".initialize($s);";
@@ -97,7 +102,12 @@ public class ViewDelegateBinder extends WeaverProcessor {
                 injectDelegateField(ctClass, classInjector);
                 injectDelegateLifeCycleIntoCustomView(ctClass, classInjector);
                 writeClass(ctClass);
-
+            } else if (ctClass.hasAnnotation(ConductorController.class)) {
+                log("Start weaving " + ctClass.getSimpleName());
+                ClassInjector classInjector = instrumentation.startWeaving(ctClass);
+                injectDelegateField(ctClass, classInjector);
+                injectDelegateLifeCycleIntoConductorController(ctClass, classInjector);
+                writeClass(ctClass);
             }
         }
     }
@@ -133,7 +143,7 @@ public class ViewDelegateBinder extends WeaverProcessor {
         CtMethod onPause = findBestMethod(ctClass, "onPause");
         boolean applied = dagger2Extension.apply(ctClass);
         AfterSuper(classInjector, onActivityCreated,
-                   applied ? STATEMENT_CALL_INITIALIZE_WITH_FACTORY : STATEMENT_CALL_INITIALIZE);
+                applied ? STATEMENT_CALL_INITIALIZE_WITH_FACTORY : STATEMENT_CALL_INITIALIZE);
         AfterSuper(classInjector, onResume, STATEMENT_CALL_ATTACH);
         beforeSuper(classInjector, onPause, STATEMENT_CALL_DETACH);
     }
@@ -149,6 +159,20 @@ public class ViewDelegateBinder extends WeaverProcessor {
                    applied ? STATEMENT_CALL_INITIALIZE_WITH_FACTORY : STATEMENT_CALL_INITIALIZE);
 //        atTheBeginning(classInjector, onDetachedFromWindow, STATEMENT_CALL_DETACH);
 
+    }
+
+    private void injectDelegateLifeCycleIntoConductorController(CtClass ctClass,
+                                                                ClassInjector classInjector)
+            throws Exception {
+        CtMethod onCreateView =
+                findBestMethod(ctClass, "onCreateView", LAYOUT_INFLATER_CLASS, VIEW_GROUP_CLASS);
+        CtMethod onAttach = findBestMethod(ctClass, "onAttach", VIEW_CLASS);
+        CtMethod onDetach = findBestMethod(ctClass, "onDetach", VIEW_CLASS);
+        boolean applied = dagger2Extension.apply(ctClass);
+        atTheBeginning(classInjector, onCreateView,
+                applied ? STATEMENT_CALL_INITIALIZE_WITH_FACTORY : STATEMENT_CALL_INITIALIZE);
+        AfterSuper(classInjector, onAttach, STATEMENT_CALL_ATTACH);
+        beforeSuper(classInjector, onDetach, STATEMENT_CALL_DETACH);
     }
 
     /**
