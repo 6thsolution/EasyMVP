@@ -29,6 +29,7 @@ import javax.lang.model.element.Modifier;
 import easymvp.compiler.ViewType;
 import easymvp.compiler.generator.decorator.ActivityDecorator;
 import easymvp.compiler.generator.decorator.BaseDecorator;
+import easymvp.compiler.generator.decorator.ConductorControllerDecorator;
 import easymvp.compiler.generator.decorator.CustomViewDecorator;
 import easymvp.compiler.generator.decorator.FragmentDecorator;
 import easymvp.compiler.generator.decorator.SupportActivityDecorator;
@@ -88,6 +89,9 @@ public class DelegateClassGenerator extends ClassGenerator {
                 break;
             case CUSTOM_VIEW:
                 decorator = new CustomViewDecorator(this);
+                break;
+            case CONDUCTOR_CONTROLLER:
+                decorator = new ConductorControllerDecorator(this);
                 break;
         }
     }
