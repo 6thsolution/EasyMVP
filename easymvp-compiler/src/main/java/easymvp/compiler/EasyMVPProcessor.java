@@ -51,6 +51,7 @@ import easymvp.annotation.ActivityView;
 import easymvp.annotation.CustomView;
 import easymvp.annotation.FragmentView;
 import easymvp.annotation.Presenter;
+import easymvp.annotation.conductor.ConductorController;
 import easymvp.compiler.generator.ClassGenerator;
 import easymvp.compiler.generator.DelegateClassGenerator;
 import easymvp.compiler.generator.PresenterLoaderGenerator;
@@ -68,6 +69,8 @@ public class EasyMVPProcessor extends AbstractProcessor {
     private static final String ANDROID_SUPPORT_FRAGMENT_CLASS_NAME =
             "android.support.v4.app.Fragment";
     private static final String ANDROID_CUSTOM_VIEW_CLASS_NAME = "android.view.View";
+    private static final String CONDUCTOR_CONTROLLER_CLASS_NAME =
+            "com.bluelinelabs.conductor.Controller";
     private static final String DELEGATE_CLASS_SUFFIX = "_ViewDelegate";
 
     private Messager messager;
@@ -94,6 +97,7 @@ public class EasyMVPProcessor extends AbstractProcessor {
         types.add(FragmentView.class.getCanonicalName());
         types.add(CustomView.class.getCanonicalName());
         types.add(Presenter.class.getCanonicalName());
+        types.add(ConductorController.class.getCanonicalName());
         return types;
     }
 
@@ -145,6 +149,9 @@ public class EasyMVPProcessor extends AbstractProcessor {
         }
         for (Element element : roundEnv.getElementsAnnotatedWith(CustomView.class)) {
             parseCustomView(element, delegateClassMap);
+        }
+        for (Element element : roundEnv.getElementsAnnotatedWith(ConductorController.class)) {
+            parseConductorController(element, delegateClassMap);
         }
         for (Element element : roundEnv.getElementsAnnotatedWith(Presenter.class)) {
             parsePresenterInjection(element, delegateClassMap);
@@ -248,6 +255,33 @@ public class EasyMVPProcessor extends AbstractProcessor {
         delegateClassGenerator.setViewType(ViewType.CUSTOM_VIEW);
 
         CustomView annotation = element.getAnnotation(CustomView.class);
+        try {
+            annotation.presenter();
+        } catch (MirroredTypeException mte) {
+            parsePresenter(delegateClassGenerator, mte);
+        }
+    }
+
+    private void parseConductorController(Element element,
+                                          Map<TypeElement, DelegateClassGenerator> delegateClassMap) {
+        if (!SuperficialValidation.validateElement(element)) {
+            error("Superficial validation error for %s", element.getSimpleName());
+            return;
+        }
+        if (!Validator.isNotAbstractClass(element)) {
+            error("%s is abstract", element.getSimpleName());
+            return;
+        }
+        if (!Validator.isSubType(element, CONDUCTOR_CONTROLLER_CLASS_NAME, processingEnv)) {
+            error("%s must extend View", element.getSimpleName());
+            return;
+        }
+        //getEnclosing for class type will returns its package/
+        TypeElement enclosingElement = (TypeElement) element;
+        DelegateClassGenerator delegateClassGenerator =
+                getDelegate(enclosingElement, delegateClassMap);
+        delegateClassGenerator.setViewType(ViewType.CONDUCTOR_CONTROLLER);
+        ConductorController annotation = element.getAnnotation(ConductorController.class);
         try {
             annotation.presenter();
         } catch (MirroredTypeException mte) {
