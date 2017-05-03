@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+Version 1.2.0-beta1
+-------------
+
+_2017-05-03_
+
+* Add `@ConductorController` annotation to support [Conductor](https://github.com/bluelinelabs/Conductor). ([#10](https://github.com/6thsolution/EasyMVP/issues/10))
+
+
 Version 1.1.1
 -------------
 
