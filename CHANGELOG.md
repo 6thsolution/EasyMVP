@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+Version 1.2.0-beta2
+-------------
+
+_2017-05-10_
+
+* When return `super.onCreateView` doesn't override, weaver will override and return its super method. 
+
 Version 1.2.0-beta1
 -------------
 
