@@ -309,8 +309,9 @@ public class ViewDelegateBinder extends WeaverProcessor {
             String override;
             if (returnSuperClass) {
                 override = "{" +
+                        "android.view.View $$$supercall =  super." + method.getName() + "($$);" +
                         statement +
-                        "return super." + method.getName() + "($$);" +
+                        "return $$$supercall;"+
                         "}";
             } else {
                 override = "{" +
