@@ -170,7 +170,7 @@ public class ViewDelegateBinder extends WeaverProcessor {
         CtMethod onDetach = findBestMethod(ctClass, "onDetach", VIEW_CLASS);
         boolean applied = dagger2Extension.apply(ctClass);
         atTheBeginning(classInjector, onCreateView,
-                applied ? STATEMENT_CALL_INITIALIZE_WITH_FACTORY : STATEMENT_CALL_INITIALIZE);
+                applied ? STATEMENT_CALL_INITIALIZE_WITH_FACTORY : STATEMENT_CALL_INITIALIZE, true);
         AfterSuper(classInjector, onAttach, STATEMENT_CALL_ATTACH);
         beforeSuper(classInjector, onDetach, STATEMENT_CALL_DETACH);
     }
@@ -297,7 +297,7 @@ public class ViewDelegateBinder extends WeaverProcessor {
     }
 
     private void atTheBeginning(ClassInjector classInjector, CtMethod method,
-                                String statement) throws Exception {
+                                String statement, boolean returnSuperClass) throws Exception {
         if (method.getName().contains(ASPECTJ_GEN_METHOD)) {
             statement = statement.replaceAll("\\$s", "\\ajc\\$this");
             classInjector.insertMethod(method.getName(),
@@ -306,13 +306,22 @@ public class ViewDelegateBinder extends WeaverProcessor {
                     .atTheBeginning(statement).inject().inject();
         } else {
             statement = statement.replaceAll("\\$s", "this");
+            String override;
+            if (returnSuperClass) {
+                override = "{" +
+                        statement +
+                        "return super." + method.getName() + "($$);" +
+                        "}";
+            } else {
+                override = "{" +
+                        statement +
+                        "super." + method.getName() + "($$);" +
+                        "}";
+            }
             classInjector.insertMethod(method.getName(),
                     ctClassToString(method.getParameterTypes()))
                     .ifExistsButNotOverride()
-                    .override("{" +
-                            statement +
-                            "super." + method.getName() + "($$);" +
-                            "}").inject()
+                    .override(override).inject()
                     .ifExists()
                     .atTheBeginning(statement).inject()
                     .inject();
