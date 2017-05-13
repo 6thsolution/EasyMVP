@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bluelinelabs.conductor.Controller;
 import com.sixthsolution.easymvp.test.R;
 import com.sixthsolution.easymvp.test.TestPresenter;
 import com.sixthsolution.easymvp.test.View1;
@@ -15,7 +14,6 @@ import easymvp.annotation.conductor.ConductorController;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
 /**
@@ -23,7 +21,7 @@ import static junit.framework.Assert.assertTrue;
  */
 
 @ConductorController(presenter = TestPresenter.class)
-public class TestController extends Controller implements View1 {
+public class TestController extends BaseController implements View1 {
 
     @Presenter
     TestPresenter testPresenter;

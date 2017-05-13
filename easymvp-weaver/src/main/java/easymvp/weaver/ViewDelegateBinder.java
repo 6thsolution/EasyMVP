@@ -157,7 +157,7 @@ public class ViewDelegateBinder extends WeaverProcessor {
 
         AfterSuper(classInjector, onAttachedToWindow,
                    applied ? STATEMENT_CALL_INITIALIZE_WITH_FACTORY : STATEMENT_CALL_INITIALIZE);
-//        atTheBeginning(classInjector, onDetachedFromWindow, STATEMENT_CALL_DETACH);
+        //        afterSuperWithReturnType(classInjector, onDetachedFromWindow, STATEMENT_CALL_DETACH);
 
     }
 
@@ -169,7 +169,7 @@ public class ViewDelegateBinder extends WeaverProcessor {
         CtMethod onAttach = findBestMethod(ctClass, "onAttach", VIEW_CLASS);
         CtMethod onDetach = findBestMethod(ctClass, "onDetach", VIEW_CLASS);
         boolean applied = dagger2Extension.apply(ctClass);
-        atTheBeginning(classInjector, onCreateView,
+        afterSuperWithReturnType(classInjector, onCreateView,
                 applied ? STATEMENT_CALL_INITIALIZE_WITH_FACTORY : STATEMENT_CALL_INITIALIZE, true);
         AfterSuper(classInjector, onAttach, STATEMENT_CALL_ATTACH);
         beforeSuper(classInjector, onDetach, STATEMENT_CALL_DETACH);
@@ -296,14 +296,17 @@ public class ViewDelegateBinder extends WeaverProcessor {
 
     }
 
-    private void atTheBeginning(ClassInjector classInjector, CtMethod method,
-                                String statement, boolean returnSuperClass) throws Exception {
+    private void afterSuperWithReturnType(ClassInjector classInjector, CtMethod method,
+                                          String statement, boolean returnSuperClass)
+            throws Exception {
         if (method.getName().contains(ASPECTJ_GEN_METHOD)) {
             statement = statement.replaceAll("\\$s", "\\ajc\\$this");
+            String methodName =
+                    method.getName().substring(0, method.getName().indexOf(ASPECTJ_GEN_METHOD));
             classInjector.insertMethod(method.getName(),
                     ctClassToString(method.getParameterTypes()))
                     .ifExists()
-                    .atTheBeginning(statement).inject().inject();
+                    .afterACallTo(methodName, statement).inject().inject();
         } else {
             statement = statement.replaceAll("\\$s", "this");
             String override;
@@ -316,18 +319,29 @@ public class ViewDelegateBinder extends WeaverProcessor {
                         "}";
             } else {
                 override = "{" +
-                        statement +
                         "super." + method.getName() + "($$);" +
+                        statement +
                         "}";
             }
+            int methodLines = getMethodLines(classInjector.getCtClass(), method);
+            log("Method lines for " + method.getName() + " is " + methodLines + "");
             classInjector.insertMethod(method.getName(),
                     ctClassToString(method.getParameterTypes()))
                     .ifExistsButNotOverride()
                     .override(override).inject()
                     .ifExists()
-                    .atTheBeginning(statement).inject()
+                    .atTheEnd(statement).inject()
                     .inject();
         }
+    }
+
+    private int getMethodLines(CtClass ctClass, CtMethod method) {
+        if (!ctClass.equals(method.getDeclaringClass())) {
+            return 0;
+        }
+        int start = method.getMethodInfo().getLineNumber(0);
+        int end = method.getMethodInfo().getLineNumber(Integer.MAX_VALUE);
+        return end - start + 1;
     }
 
     private void insertDelegateField(ClassInjector classInjector, String delegateClassName)
