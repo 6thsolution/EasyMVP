@@ -24,6 +24,7 @@ EasyMVP eliminates the boilerplate code for dealing with MVP implementation.
     - [DataMapper](#datamapper)
 - [FAQ](#faq)
 - [Documentations](#documentations)
+- [Demo](#demo)
 - [Author](#author)
 - [License](#license)
 - [Changelog](https://github.com/6thsolution/EasyMVP/blob/master/CHANGELOG.md)
@@ -405,6 +406,9 @@ EasyMVP [API](http://6thsolution.github.io/EasyMVP/api-javadoc/): Javadocs for t
 EasyMVP [RX-API](http://6thsolution.github.io/EasyMVP/rx-api-javadoc/): Javadocs for the current RX-API (Clean Architecture API) release
 
 EasyMVP [RX2-API](http://6thsolution.github.io/EasyMVP/rx2-api-javadoc/): Javadocs for the current RX2-API (Clean Architecture API) release
+
+## Demo
+[CleanTvMaze](https://github.com/mohamad-amin/CleanTvMaze) Shows how to use EasyMVP with Kotlin
 
 ## Author
 [Saeed Masoumi](https://github.com/SaeedMasoumi) 
