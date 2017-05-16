@@ -19,6 +19,7 @@ EasyMVP消除了开发MVP时多余的模板代码。
 - [问答](#问答)
 - [文档](#文档)
 - [作者](#作者)
+- [演示](#演示)
 - [翻译](#翻译)
 - [许可](#许可)
 - [更变日志](https://github.com/6thsolution/EasyMVP/blob/master/CHANGELOG.md)
@@ -401,6 +402,9 @@ EasyMVP [API](http://6thsolution.github.io/EasyMVP/api-javadoc/): 现发布版�
 EasyMVP [RX-API](http://6thsolution.github.io/EasyMVP/rx-api-javadoc/): 现发布版本的RX-API (Clean Architecture API)文档（Javadocs）
 
 EasyMVP [RX2-API](http://6thsolution.github.io/EasyMVP/rx2-api-javadoc/): 现发布版本的RX2-API (Clean Architecture API)文档（Javadocs）
+
+## 演示
+[CleanTvMaze](https://github.com/mohamad-amin/CleanTvMaze)
 
 ## 作者
 [Saeed Masoumi](https://github.com/SaeedMasoumi)
