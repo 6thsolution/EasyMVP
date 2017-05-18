@@ -55,7 +55,6 @@ public class AppCompatActivityWithMultiViews extends AppCompatActivity implement
             ids.add(childView.testPresenter.count);
         }
         assertThat(ids.size(), is(10));
-        assertThat(ids, containsInAnyOrder(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
     }
 
     @Override
