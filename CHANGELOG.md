@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+Version 1.2.0-beta5
+-------------
+
+_2017-05-19_
+
+* Add `@PresenterId` annotation to support multiple instances of a same view class in a parent view. ([#28](https://github.com/6thsolution/EasyMVP/issues/28)) 
+
 Version 1.2.0-beta2
 -------------
 
