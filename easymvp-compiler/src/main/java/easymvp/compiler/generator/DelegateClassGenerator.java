@@ -55,6 +55,12 @@ public class DelegateClassGenerator extends ClassGenerator {
     private ClassName presenterTypeInView;
     private BaseDecorator decorator;
 
+    private String presenterId = "";
+
+    public String getPresenterId() {
+        return presenterId;
+    }
+
     public DelegateClassGenerator(String packageName, String className, ClassName viewClass) {
         super(packageName, className);
         this.viewClass = viewClass;
@@ -151,5 +157,9 @@ public class DelegateClassGenerator extends ClassGenerator {
 
     public int getResourceID() {
         return resourceID;
+    }
+
+    public void setPresenterId(String presenterId) {
+        this.presenterId = presenterId;
     }
 }

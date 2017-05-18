@@ -25,6 +25,8 @@
         </activity>
         <activity android:name=".conductor.ConductorActivity">
         </activity>
+        <activity android:name=".AppCompatActivityWithMultiViews">
+        </activity>
     </application>
 
 </manifest>

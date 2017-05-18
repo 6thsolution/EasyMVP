@@ -118,8 +118,15 @@ public abstract class BaseDecorator {
 
     private void initLoader(MethodSpec.Builder method, String presenterProvider) {
         method.addStatement(createContextField("view"), CONTEXT);
+        String predefinedPresenterId = delegateClassGenerator.getPresenterId();
+        String presenterId;
+        if (predefinedPresenterId != null && !predefinedPresenterId.isEmpty()) {
+            presenterId = "view." + predefinedPresenterId;
+        } else {
+            presenterId = LOADER_ID.incrementAndGet() + "";
+        }
         method.addStatement("$L(view).initLoader($L,null,$L)", METHOD_GET_LOADER_MANAGER,
-                            LOADER_ID.incrementAndGet(),
+                presenterId,
                             "new PresenterLoaderCallbacks(context, view, this, " + presenterProvider + ")");
 
     }

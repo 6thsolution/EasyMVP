@@ -12,6 +12,8 @@ public class TestPresenter extends AbstractPresenter<View1> {
 
     private boolean isOnViewAttachedCalled = false;
     private boolean isOnViewDetachedCalled = false;
+    private static int counter = 0;
+    public int count = counter++;
 
     @Override
     public void onViewAttached(View1 view) {

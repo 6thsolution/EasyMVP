@@ -43,7 +43,8 @@ public class ActivityDecorator extends BaseDecorator {
                             .addMember("value", "\"ResourceType\"")
                             .build());
             method.addStatement("view.setContentView(" + resId + ")");
-        }    }
+        }
+    }
 
     @Override
     protected ClassName getPresenterLoaderClass() {

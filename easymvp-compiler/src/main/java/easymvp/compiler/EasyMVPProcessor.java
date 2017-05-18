@@ -41,7 +41,9 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.ExecutableType;
 import javax.lang.model.type.MirroredTypeException;
+import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
@@ -51,6 +53,7 @@ import easymvp.annotation.ActivityView;
 import easymvp.annotation.CustomView;
 import easymvp.annotation.FragmentView;
 import easymvp.annotation.Presenter;
+import easymvp.annotation.PresenterId;
 import easymvp.annotation.conductor.ConductorController;
 import easymvp.compiler.generator.ClassGenerator;
 import easymvp.compiler.generator.DelegateClassGenerator;
@@ -155,6 +158,9 @@ public class EasyMVPProcessor extends AbstractProcessor {
         }
         for (Element element : roundEnv.getElementsAnnotatedWith(Presenter.class)) {
             parsePresenterInjection(element, delegateClassMap);
+        }
+        for (Element element : roundEnv.getElementsAnnotatedWith(PresenterId.class)) {
+            parsePresenterId(element, delegateClassMap);
         }
         return delegateClassMap;
     }
@@ -309,6 +315,36 @@ public class EasyMVPProcessor extends AbstractProcessor {
             delegateClassGenerator.injectablePresenterInView(true);
         }
         delegateClassGenerator.setPresenterTypeInView(variableElement.asType().toString());
+    }
+
+    private void parsePresenterId(Element element,
+                                  Map<TypeElement, DelegateClassGenerator> delegateClassMap) {
+        if (!SuperficialValidation.validateElement(element)) {
+            error("Superficial validation error for %s", element.getSimpleName());
+            return;
+        }
+        if (Validator.isPrivate(element)) {
+            error("%s can't be private", element.getSimpleName());
+            return;
+        }
+        if (Validator.isMethod(element)) {
+            ExecutableType emeth = (ExecutableType) element.asType();
+            if (!emeth.getReturnType().getKind().equals(TypeKind.LONG) &&
+                    !emeth.getReturnType().getKind().equals(TypeKind.INT)) {
+                error("%s must have return type int or long", element);
+            }
+        } else {
+            TypeKind kind = element.asType().getKind();
+            if (kind != TypeKind.INT && kind != TypeKind.LONG) {
+                error("%s must be int or long", element.getSimpleName());
+                return;
+            }
+        }
+        String presenterId = element.toString();
+        DelegateClassGenerator delegateClassGenerator =
+                getDelegate((TypeElement) element.getEnclosingElement(),
+                        delegateClassMap);
+        delegateClassGenerator.setPresenterId(presenterId);
     }
 
     private void parsePresenter(DelegateClassGenerator delegateClassGenerator,
