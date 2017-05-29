@@ -5,6 +5,11 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.sixthsolution.easymvp.test.di.ActivityComponent;
+import com.sixthsolution.easymvp.test.di.CustomViewComponent;
+
+import javax.inject.Inject;
+
 import easymvp.annotation.CustomView;
 import easymvp.annotation.Presenter;
 import easymvp.annotation.PresenterId;
@@ -16,8 +21,9 @@ import static junit.framework.Assert.assertTrue;
  * @author Saeed Masoumi (saeed@6thsolution.com)
  */
 @CustomView(presenter = TestPresenter.class)
-public class SimpleCustomView extends View implements View1 {
+public class SimpleCustomViewWithDagger extends View implements View1 {
 
+    @Inject
     @Presenter
     TestPresenter testPresenter;
 
@@ -25,22 +31,23 @@ public class SimpleCustomView extends View implements View1 {
     int presenterId = 1_000;
 
 
-    public SimpleCustomView(Context context) {
+    public SimpleCustomViewWithDagger(Context context) {
         super(context);
     }
 
-    public SimpleCustomView(Context context,
-                            @Nullable AttributeSet attrs) {
+    public SimpleCustomViewWithDagger(Context context,
+                                      @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public SimpleCustomView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public SimpleCustomViewWithDagger(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public SimpleCustomView(Context context, int counter) {
+    public SimpleCustomViewWithDagger(Context context, int counter, ActivityComponent component) {
         super(context);
         presenterId += counter;
+        component.customViewComponent().build().injectTo(this);
     }
 
     @Override
@@ -49,5 +56,4 @@ public class SimpleCustomView extends View implements View1 {
         assertNotNull(testPresenter);
         assertTrue(testPresenter.isOnViewAttachedCalled());
     }
-
 }

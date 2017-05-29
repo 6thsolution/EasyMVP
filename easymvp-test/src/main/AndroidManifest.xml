@@ -27,6 +27,8 @@
         </activity>
         <activity android:name=".AppCompatActivityWithMultiViews">
         </activity>
+        <activity android:name=".AppCompatActivityWithMultiViewsWithDagger">
+        </activity>
     </application>
 
 </manifest>
