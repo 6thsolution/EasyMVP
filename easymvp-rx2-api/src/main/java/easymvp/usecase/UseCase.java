@@ -7,6 +7,14 @@ import io.reactivex.Scheduler;
 import javax.annotation.Nullable;
 
 /**
+ * Each {@code UseCase} of the system orchestrate the flow of data to and from the entities.
+ * <p>
+ * Outer layers of system can execute use cases by calling {@link #execute(Object)}} method. Also
+ * you can use {@link #useCaseExecutor} to execute the job in a background thread and {@link
+ * #postExecutionThread} to post the result to another thread(usually UI thread).
+ *
+ * @param <P> The response type of a use case.
+ * @param <Q> The request type of a use case.
  * Created by megrez on 2017/3/12.
  */
 public abstract class UseCase<P,Q> {
