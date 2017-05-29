@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+Version 1.2.0-beta6
+-------------
+
+_2017-05-29_
+
+* Support for different types of UseCases. ([#18](https://github.com/6thsolution/EasyMVP/issues/18)) 
+
 Version 1.2.0-beta5
 -------------
 
