@@ -261,7 +261,8 @@ public abstract class BaseDecorator {
         //implement onLoaderReset
         MethodSpec.Builder onLoaderReset = getOnLoaderResetMethod(loader);
         if (presenterFieldInView != null && !presenterFieldInView.isEmpty()) {
-            onLoaderReset.addStatement("view.get().$L = null", presenterFieldInView);
+            onLoaderReset.beginControlFlow("if (view.get() != null)").
+                    addStatement("view.get().$L = null", presenterFieldInView).endControlFlow();
         }
         result.addMethod(onLoadFinished.build());
         result.addMethod(onLoaderReset.build());
@@ -285,6 +286,8 @@ public abstract class BaseDecorator {
         return getCallbacksMethod(METHOD_ON_LOADER_RESET)
                 .returns(TypeName.VOID)
                 .addParameter(loader, "loader")
-                .addStatement("delegate.get().$L = null", FIELD_PRESENTER);
+                .beginControlFlow("if (delegate.get() != null)")
+                .addStatement("delegate.get().$L = null", FIELD_PRESENTER)
+                .endControlFlow();
     }
 }
