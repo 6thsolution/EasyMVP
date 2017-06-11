@@ -1,6 +1,16 @@
 Change Log
 ==========
 
+Version 1.2.0-beta7
+-------------
+
+_2017-06-11_
+
+* Support new android gradle plugin (3.x.x)
+* Minor bug fix
+
+
+
 Version 1.2.0-beta6
 -------------
 
