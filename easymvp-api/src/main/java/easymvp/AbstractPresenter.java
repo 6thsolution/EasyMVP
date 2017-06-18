@@ -1,9 +1,7 @@
 package easymvp;
 
 import java.lang.ref.WeakReference;
-
 import javax.annotation.Nullable;
-
 
 /**
  * The base class for implementing a {@link Presenter}.
@@ -21,7 +19,7 @@ public abstract class AbstractPresenter<V> implements Presenter<V> {
 
     @Override
     public void onViewDetached() {
-        this.view.clear();
+        if (view != null) view.clear();
     }
 
     @Override

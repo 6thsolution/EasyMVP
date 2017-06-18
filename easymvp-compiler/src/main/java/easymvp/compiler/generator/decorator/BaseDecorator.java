@@ -7,12 +7,9 @@ import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
-
-import java.util.concurrent.atomic.AtomicInteger;
-
-import javax.lang.model.element.Modifier;
-
 import easymvp.compiler.generator.DelegateClassGenerator;
+import java.util.concurrent.atomic.AtomicInteger;
+import javax.lang.model.element.Modifier;
 
 import static easymvp.compiler.util.ClassNames.BUNDLE;
 import static easymvp.compiler.util.ClassNames.CONTEXT;
@@ -28,6 +25,7 @@ public abstract class BaseDecorator {
     private static final String METHOD_INITIALIZE = "initialize";
     private static final String METHOD_ATTACH_VIEW = "attachView";
     private static final String METHOD_DETACH_VIEW = "detachView";
+    private static final String METHOD_DESTROY = "destroy";
     private static final String METHOD_GET_LOADER_MANAGER = "getLoaderManager";
     private static final String CLASS_PRESENTER_FACTORY = "PresenterFactory";
     private static final String CLASS_PRESENTER_LOADER_CALLBACKS = "PresenterLoaderCallbacks";
@@ -44,9 +42,6 @@ public abstract class BaseDecorator {
 
     /**
      * {@code getLoaderManager(T view);}
-     *
-     * @param methodSignature
-     * @return
      */
     public abstract MethodSpec getLoaderManagerMethod(MethodSpec.Builder methodSignature);
 
@@ -59,19 +54,22 @@ public abstract class BaseDecorator {
     }
 
     protected void addFields(TypeSpec.Builder result) {
+        ParameterizedTypeName loader = ParameterizedTypeName.get(getLoaderClass(),
+                delegateClassGenerator.getPresenterClass());
         result.addField(
-                FieldSpec.builder(delegateClassGenerator.getPresenterClass(), FIELD_PRESENTER, Modifier.PRIVATE)
-                        .build());
+                FieldSpec.builder(delegateClassGenerator.getPresenterClass(), FIELD_PRESENTER,
+                        Modifier.PRIVATE).build())
+                .addField(FieldSpec.builder(loader, "loader", Modifier.PRIVATE).build())
+                .addField(FieldSpec.builder(TypeName.INT, "loaderId", Modifier.PRIVATE).build());
     }
 
     protected void addMethods(TypeSpec.Builder result) {
-        result
-                .addMethod(getInitializeMethod())
+        result.addMethod(getInitializeMethod())
                 .addMethod(getInitializeMethodWithFactory())
                 .addMethod(getAttachViewMethod())
                 .addMethod(getDetachViewMethod())
-                .addMethod(getLoaderManagerMethod(getLoaderMethodSignature()))
-        ;
+                .addMethod(getDestroyMethod())
+                .addMethod(getLoaderManagerMethod(getLoaderMethodSignature()));
     }
 
     protected void addInnerClasses(TypeSpec.Builder result) {
@@ -104,9 +102,8 @@ public abstract class BaseDecorator {
                 .addParameter(delegateClassGenerator.getViewClass(), "view")
                 .returns(TypeName.VOID);
 
-        method.addParameter(
-                ParameterSpec.builder(presenterFactoryTypeName(), "presenterFactory", Modifier.FINAL)
-                        .build());
+        method.addParameter(ParameterSpec.builder(presenterFactoryTypeName(), "presenterFactory",
+                Modifier.FINAL).build());
         if (!delegateClassGenerator.isInjectablePresenterInView()) {
             method.addStatement("// Intentionally left blank!");
         } else {
@@ -125,37 +122,48 @@ public abstract class BaseDecorator {
         } else {
             presenterId = LOADER_ID.incrementAndGet() + "";
         }
-        method.addStatement("$L(view).initLoader($L,null,$L)", METHOD_GET_LOADER_MANAGER,
+        method.addStatement("loaderId = $L", presenterId);
+        method.addStatement("loader = $L(view).initLoader($L,null,$L)", METHOD_GET_LOADER_MANAGER,
                 presenterId,
-                            "new PresenterLoaderCallbacks(context, view, this, " + presenterProvider + ")");
-
+                "new PresenterLoaderCallbacks(context, view, this, " + presenterProvider + ")");
     }
 
     protected abstract void implementInitializer(MethodSpec.Builder method);
 
     private MethodSpec getAttachViewMethod() {
-        MethodSpec.Builder method =
-                MethodSpec.methodBuilder(METHOD_ATTACH_VIEW)
-                        .addModifiers(Modifier.PUBLIC)
-                        .addAnnotation(Override.class)
-                        .addParameter(delegateClassGenerator.getViewClass(), "view").returns(TypeName.VOID);
-        method.addStatement(
-                callPresenterAttachView(FIELD_PRESENTER, "view", "$T"),
+        MethodSpec.Builder method = MethodSpec.methodBuilder(METHOD_ATTACH_VIEW)
+                .addModifiers(Modifier.PUBLIC)
+                .addAnnotation(Override.class)
+                .addParameter(delegateClassGenerator.getViewClass(), "view")
+                .returns(TypeName.VOID);
+        method.addStatement(callPresenterAttachView(FIELD_PRESENTER, "view", "$T"),
                 ClassName.bestGuess(delegateClassGenerator.getPresenterViewQualifiedName()));
         return method.build();
     }
 
     private MethodSpec getDetachViewMethod() {
-        MethodSpec.Builder method =
-                MethodSpec.methodBuilder(METHOD_DETACH_VIEW)
-                        .addModifiers(Modifier.PUBLIC)
-                        .addAnnotation(Override.class);
+        MethodSpec.Builder method = MethodSpec.methodBuilder(METHOD_DETACH_VIEW)
+                .addModifiers(Modifier.PUBLIC)
+                .addAnnotation(Override.class);
         method.addStatement(callPresenterDetachView(FIELD_PRESENTER));
         return method.build();
     }
 
+    private MethodSpec getDestroyMethod() {
+        MethodSpec.Builder method = MethodSpec.methodBuilder(METHOD_DESTROY)
+                .addModifiers(Modifier.PUBLIC)
+                .addParameter(delegateClassGenerator.getViewClass(), "view")
+                .addAnnotation(Override.class);
+        method.addStatement(addStatementInOnDestroyMethod());
+        return method.build();
+    }
+
+    protected String addStatementInOnDestroyMethod() {
+        return "// Intentionally left blank!";
+    }
+
     private String callPresenterAttachView(String presenterVar, String viewVar,
-                                           String presenterViewType) {
+            String presenterViewType) {
         return presenterVar + ".onViewAttached((" + presenterViewType + ")" + viewVar + ")";
     }
 
@@ -175,10 +183,11 @@ public abstract class BaseDecorator {
                 .addSuperinterface(presenterFactoryTypeName())
                 .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
                 .addMethod(MethodSpec.methodBuilder("get")
-                                   .addModifiers(Modifier.PUBLIC)
-                                   .addAnnotation(Override.class)
-                                   .addStatement("return new $T()", delegateClassGenerator.getPresenterClass())
-                                   .returns(delegateClassGenerator.getPresenterClass()).build())
+                        .addModifiers(Modifier.PUBLIC)
+                        .addAnnotation(Override.class)
+                        .addStatement("return new $T()", delegateClassGenerator.getPresenterClass())
+                        .returns(delegateClassGenerator.getPresenterClass())
+                        .build())
                 .build();
     }
 
@@ -188,7 +197,7 @@ public abstract class BaseDecorator {
 
     private TypeSpec getPresenterLoaderCallbacks() {
         ParameterizedTypeName loader = ParameterizedTypeName.get(getLoaderClass(),
-                                                                 delegateClassGenerator.getPresenterClass());
+                delegateClassGenerator.getPresenterClass());
         TypeName contextWeakReference = ParameterizedTypeName.get(WEAK_REFERENCE, CONTEXT);
         TypeName viewWeakReference =
                 ParameterizedTypeName.get(WEAK_REFERENCE, delegateClassGenerator.getViewClass());
@@ -196,67 +205,55 @@ public abstract class BaseDecorator {
                 ParameterizedTypeName.get(WEAK_REFERENCE, delegateClassGenerator.getClassName());
 
         TypeSpec.Builder result = TypeSpec.classBuilder(CLASS_PRESENTER_LOADER_CALLBACKS)
-                .addSuperinterface(
-                        ParameterizedTypeName.get(getLoaderCallbacksClass(),
-                                                  delegateClassGenerator.getPresenterClass()))
+                .addSuperinterface(ParameterizedTypeName.get(getLoaderCallbacksClass(),
+                        delegateClassGenerator.getPresenterClass()))
                 .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
-                .addField(FieldSpec.builder(boolean.class, FIELD_PRESENTER_DELIVERED, Modifier.PRIVATE)
-                                  .initializer("false").build())
-                .addField(FieldSpec.builder(
-                        contextWeakReference, "context", Modifier.PRIVATE)
-                                  .initializer("null")
-                                  .build())
-                .addField(FieldSpec.builder(
-                        viewWeakReference, "view",
-                        Modifier.PRIVATE)
-                                  .initializer("null")
-                                  .build())
-                .addField(FieldSpec.builder(
-                        delegateWeakReference, "delegate",
-                        Modifier.PRIVATE)
-                                  .initializer("null")
-                                  .build())
-                .addField(FieldSpec.builder(
-                        presenterFactoryTypeName(), "provider", Modifier.PRIVATE)
-                                  .initializer("null")
-                                  .build())
+                .addField(FieldSpec.builder(boolean.class, FIELD_PRESENTER_DELIVERED,
+                        Modifier.PRIVATE).initializer("false").build())
+                .addField(FieldSpec.builder(contextWeakReference, "context", Modifier.PRIVATE)
+                        .initializer("null")
+                        .build())
+                .addField(FieldSpec.builder(viewWeakReference, "view", Modifier.PRIVATE)
+                        .initializer("null")
+                        .build())
+                .addField(FieldSpec.builder(delegateWeakReference, "delegate", Modifier.PRIVATE)
+                        .initializer("null")
+                        .build())
+                .addField(
+                        FieldSpec.builder(presenterFactoryTypeName(), "provider", Modifier.PRIVATE)
+                                .initializer("null")
+                                .build())
                 //adding constructor
                 .addMethod(MethodSpec.constructorBuilder()
-                                   .addParameter(CONTEXT, "context")
-                                   .addParameter(delegateClassGenerator.getViewClass(), "view")
-                                   .addParameter(delegateClassGenerator.getClassName(), "delegate")
-                                   .addParameter(presenterFactoryTypeName(), "provider")
-                                   .addStatement("this.context = new $T(context)", contextWeakReference)
-                                   .addStatement("this.view = new $T(view)", viewWeakReference)
-                                   .addStatement("this.delegate = new $T(delegate)", delegateWeakReference)
-                                   .addStatement("this.provider = provider")
-                                   .build())
+                        .addParameter(CONTEXT, "context")
+                        .addParameter(delegateClassGenerator.getViewClass(), "view")
+                        .addParameter(delegateClassGenerator.getClassName(), "delegate")
+                        .addParameter(presenterFactoryTypeName(), "provider")
+                        .addStatement("this.context = new $T(context)", contextWeakReference)
+                        .addStatement("this.view = new $T(view)", viewWeakReference)
+                        .addStatement("this.delegate = new $T(delegate)", delegateWeakReference)
+                        .addStatement("this.provider = provider")
+                        .build())
                 //create presenter loader
-                .addMethod(
-                        getCallbacksMethod(METHOD_ON_CREATE_LOADER)
-                                .returns(loader)
-                                .addParameter(int.class, "id")
-                                .addParameter(BUNDLE, "bundle")
-                                .addStatement("return new $T($L,$L)",
-                                              getPresenterLoaderClass(),
-                                              "context.get()", "provider")
-                                .build());
+                .addMethod(getCallbacksMethod(METHOD_ON_CREATE_LOADER).returns(loader)
+                        .addParameter(int.class, "id")
+                        .addParameter(BUNDLE, "bundle")
+                        .addStatement("return new $T($L,$L)", getPresenterLoaderClass(),
+                                "context.get()", "provider")
+                        .build());
         //implement onLoadFinished
-        MethodSpec.Builder onLoadFinished = getCallbacksMethod(METHOD_ON_LOAD_FINISHED)
-                .returns(TypeName.VOID)
-                .addParameter(loader, "loader")
-                .addParameter(delegateClassGenerator.getPresenterClass(), "presenter")
-                .beginControlFlow("if (!$L)", FIELD_PRESENTER_DELIVERED)
-                .addStatement("delegate.get().$L = presenter", FIELD_PRESENTER);
+        MethodSpec.Builder onLoadFinished =
+                getCallbacksMethod(METHOD_ON_LOAD_FINISHED).returns(TypeName.VOID)
+                        .addParameter(loader, "loader")
+                        .addParameter(delegateClassGenerator.getPresenterClass(), "presenter")
+                        .beginControlFlow("if (!$L)", FIELD_PRESENTER_DELIVERED)
+                        .addStatement("delegate.get().$L = presenter", FIELD_PRESENTER);
         String presenterFieldInView = delegateClassGenerator.getPresenterFieldNameInView();
         if (presenterFieldInView != null && !presenterFieldInView.isEmpty()) {
-            onLoadFinished.addStatement("view.get().$L = ($T) $L",
-                                        presenterFieldInView,
-                                        delegateClassGenerator.getPresenterTypeInView(),
-                                        FIELD_PRESENTER);
+            onLoadFinished.addStatement("view.get().$L = ($T) $L", presenterFieldInView,
+                    delegateClassGenerator.getPresenterTypeInView(), FIELD_PRESENTER);
         }
-        onLoadFinished.addStatement("$L = true", FIELD_PRESENTER_DELIVERED)
-                .endControlFlow();
+        onLoadFinished.addStatement("$L = true", FIELD_PRESENTER_DELIVERED).endControlFlow();
 
         //implement onLoaderReset
         MethodSpec.Builder onLoaderReset = getOnLoaderResetMethod(loader);
@@ -283,8 +280,7 @@ public abstract class BaseDecorator {
     protected abstract ClassName getLoaderClass();
 
     protected MethodSpec.Builder getOnLoaderResetMethod(ParameterizedTypeName loader) {
-        return getCallbacksMethod(METHOD_ON_LOADER_RESET)
-                .returns(TypeName.VOID)
+        return getCallbacksMethod(METHOD_ON_LOADER_RESET).returns(TypeName.VOID)
                 .addParameter(loader, "loader")
                 .beginControlFlow("if (delegate.get() != null)")
                 .addStatement("delegate.get().$L = null", FIELD_PRESENTER)

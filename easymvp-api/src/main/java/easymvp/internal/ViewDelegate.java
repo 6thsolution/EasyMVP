@@ -35,4 +35,6 @@ public interface ViewDelegate<V, P> {
 
     void detachView();
 
+    void destroy(V view);
+
 }

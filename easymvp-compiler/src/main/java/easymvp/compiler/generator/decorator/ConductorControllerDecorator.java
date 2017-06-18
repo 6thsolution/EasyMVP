@@ -2,7 +2,6 @@ package easymvp.compiler.generator.decorator;
 
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.MethodSpec;
-
 import easymvp.compiler.generator.DelegateClassGenerator;
 
 import static easymvp.compiler.generator.AndroidLoaderUtils.getLoader;
@@ -16,8 +15,7 @@ import static easymvp.compiler.generator.AndroidLoaderUtils.getPresenterLoader;
 
 public class ConductorControllerDecorator extends BaseDecorator {
 
-    public ConductorControllerDecorator(
-            DelegateClassGenerator delegateClassGenerator) {
+    public ConductorControllerDecorator(DelegateClassGenerator delegateClassGenerator) {
         super(delegateClassGenerator);
     }
 
@@ -39,6 +37,11 @@ public class ConductorControllerDecorator extends BaseDecorator {
     }
 
     @Override
+    protected String addStatementInOnDestroyMethod() {
+        return "getLoaderManager(view).destroyLoader(loaderId)";
+    }
+
+    @Override
     protected ClassName getPresenterLoaderClass() {
         return getPresenterLoader();
     }
@@ -52,5 +55,4 @@ public class ConductorControllerDecorator extends BaseDecorator {
     protected ClassName getLoaderClass() {
         return getLoader();
     }
-
 }

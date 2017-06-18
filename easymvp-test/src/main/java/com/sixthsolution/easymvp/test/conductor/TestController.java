@@ -4,17 +4,16 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.sixthsolution.easymvp.test.R;
 import com.sixthsolution.easymvp.test.TestPresenter;
 import com.sixthsolution.easymvp.test.View1;
-
 import easymvp.annotation.Presenter;
 import easymvp.annotation.conductor.ConductorController;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
 /**
  * @author Saeed Masoumi (s-masoumi@live.com)
@@ -49,8 +48,6 @@ public class TestController extends BaseController implements View1 {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //presenter#onDestroy will be called after this method
-        assertNotNull(testPresenter);
+        assertNull(testPresenter);
     }
-
 }
