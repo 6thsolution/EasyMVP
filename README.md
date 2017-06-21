@@ -42,10 +42,17 @@ Configure your project-level `build.gradle` to include the 'easymvp' plugin:
 ```groovy
 buildscript {
   repositories {
-    jcenter()
+    ...
+    maven { url  "http://dl.bintray.com/6thsolution/easymvp" }
    }
   dependencies {
     classpath 'com.sixthsolution.easymvp:easymvp-plugin:1.2.0-beta8'
+  }
+}
+allprojects {
+  repositories {
+      ...
+      maven { url  "http://dl.bintray.com/6thsolution/easymvp" }
   }
 }
 ```
