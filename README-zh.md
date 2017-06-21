@@ -37,19 +37,18 @@ EasyMVP消除了开发MVP时多余的模板代码。
 ```groovy
 buildscript {
   repositories {
-    jcenter()
+    ...
+    maven { url  "http://dl.bintray.com/6thsolution/easymvp" }
    }
   dependencies {
     classpath 'com.sixthsolution.easymvp:easymvp-plugin:1.2.0-beta8'
   }
 }
-```
-然后在模组内的 `build.gradle` 应用 'easymvp' 插件:
-```groovy
-apply plugin: 'easymvp'
-
-android {
-  ...
+allprojects {
+  repositories {
+      ...
+      maven { url  "http://dl.bintray.com/6thsolution/easymvp" }
+  }
 }
 ```
 当项目应用到android gradle plugin version 2.2.0-alpha1 或更高时， 本插件不需要 [android-apt](https://bitbucket.org/hvisser/android-apt) 插件。 但是如果已经在项目中使用[android-apt](https://bitbucket.org/hvisser/android-apt)插件，请按照以下顺序声明插件（`easymvp` 插件 先于 `android-apt` 插件）.
