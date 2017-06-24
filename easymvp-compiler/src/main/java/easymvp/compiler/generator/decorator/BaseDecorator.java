@@ -164,11 +164,12 @@ public abstract class BaseDecorator {
 
     private String callPresenterAttachView(String presenterVar, String viewVar,
             String presenterViewType) {
-        return presenterVar + ".onViewAttached((" + presenterViewType + ")" + viewVar + ")";
+        return String.format("if ( %s != null) %s.onViewAttached((%s)%s)", presenterVar,
+                presenterVar, presenterViewType, viewVar);
     }
 
     private String callPresenterDetachView(String presenterVar) {
-        return presenterVar + ".onViewDetached()";
+        return String.format("if ( %s != null) %s.onViewDetached()", presenterVar, presenterVar);
     }
 
     private MethodSpec.Builder getLoaderMethodSignature() {
