@@ -417,6 +417,10 @@ EasyMVP [RX2-API](http://6thsolution.github.io/EasyMVP/rx2-api-javadoc/): Javado
 ## Demo
 [CleanTvMaze](https://github.com/mohamad-amin/CleanTvMaze) Shows how to use EasyMVP with Kotlin
 
+[TVProgram_Android](https://github.com/leonard2014/tvProgram_android) Shows how to use EasyMVP with Java
+
+
+
 ## Author
 [Saeed Masoumi](https://github.com/SaeedMasoumi) 
 
