@@ -402,7 +402,7 @@ How does EasyMVP work under the hood?
 - EasyMVP uses bytecode weaving to call delegate classes inside your view implementation classes. You can find these manipulated classes in `build/weaver` folder.
 
 Is there any restrictions on using EasyMVP?
-- EasyMVP uses android's transform API for bytecode weaving. Related to this [issue](https://code.google.com/p/android/issues/detail?id=210730) the [Jack](https://source.android.com/source/jack.html) toolchain doesn't support it yet.
+- ~~EasyMVP uses android's transform API for bytecode weaving. Related to this [issue](https://code.google.com/p/android/issues/detail?id=210730) the [Jack](https://source.android.com/source/jack.html) toolchain doesn't support it yet.~~ ([Jack toolchain is now deprecated](https://android-developers.googleblog.com/2017/03/future-of-java-8-language-feature.html))
 
 Does it support kotlin?
 - Yes, See this [issue](https://github.com/6thsolution/EasyMVP/issues/22) for details.
