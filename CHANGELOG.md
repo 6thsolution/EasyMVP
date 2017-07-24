@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+Version 1.2.0-beta9
+-------------
+
+_2017-07-24_
+
+* Minor bug fix
+
+
 Version 1.2.0-beta8
 -------------
 
