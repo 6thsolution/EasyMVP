@@ -10,7 +10,6 @@ import io.reactivex.MaybeTransformer;
 /**
  * @author Saeed Masoumi (s-masoumi@live.com)
  */
-
 public abstract class MaybeUseCase<R, Q> extends UseCase<Maybe, Q> {
     private final MaybeTransformer<? super R, ? extends R> schedulersTransformer;
 
@@ -27,7 +26,7 @@ public abstract class MaybeUseCase<R, Q> extends UseCase<Maybe, Q> {
     }
 
     @Override
-    public Maybe execute(@Nullable Q param) {
+    public Maybe<R> execute(@Nullable Q param) {
         return interact(param).compose(getSchedulersTransformer());
     }
 
