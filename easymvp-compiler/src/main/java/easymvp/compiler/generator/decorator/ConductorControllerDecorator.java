@@ -38,7 +38,8 @@ public class ConductorControllerDecorator extends BaseDecorator {
 
     @Override
     protected String addStatementInOnDestroyMethod() {
-        return "getLoaderManager(view).destroyLoader(loaderId)";
+        return "if (view.getActivity() == null) return;\n"
+                + "getLoaderManager(view).destroyLoader(loaderId)";
     }
 
     @Override

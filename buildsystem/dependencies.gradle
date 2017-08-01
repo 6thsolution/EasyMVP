@@ -2,7 +2,7 @@ ext.ver = [sourceCompatibilityVersion: JavaVersion.VERSION_1_7,
            targetCompatibilityVersion: JavaVersion.VERSION_1_7]
 
 ext.deps = [//plugins
-            androidPlugin           : "com.android.tools.build:gradle:3.0.0-alpha4",
+            androidPlugin           : "com.android.tools.build:gradle:3.0.0-alpha7",
             weaverPlugin            : "io.saeid.weaver:weaver-plugin:1.0.0-beta6",
             androidApt              : "com.neenbedankt.gradle.plugins:android-apt:1.8",
             versioning              : "net.nemerosa:versioning:1.7.1",
