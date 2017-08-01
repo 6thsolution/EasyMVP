@@ -41,7 +41,7 @@ buildscript {
     maven { url  "http://dl.bintray.com/6thsolution/easymvp" }
    }
   dependencies {
-    classpath 'com.sixthsolution.easymvp:easymvp-plugin:1.2.0-beta9'
+    classpath 'com.sixthsolution.easymvp:easymvp-plugin:1.2.0-beta10'
   }
 }
 allprojects {

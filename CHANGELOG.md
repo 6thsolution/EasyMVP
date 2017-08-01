@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+Version 1.2.0-beta10
+-------------
+
+_2017-08-1_
+
+* Fix conductor `Controller#onDestroy` NPE 
+
+
 Version 1.2.0-beta9
 -------------
 
