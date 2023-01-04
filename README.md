@@ -422,7 +422,7 @@ EasyMVP [RX2-API](http://6thsolution.github.io/EasyMVP/rx2-api-javadoc/): Javado
 
 
 ## Author
-[Saeed Masoumi](https://github.com/SaeedMasoumi) 
+[Saeid Masoumihajiagha](https://github.com/SaeedMasoumi) 
 
 ## License
 ```
